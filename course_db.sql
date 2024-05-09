@@ -128,5 +128,9 @@ ADD COLUMN `prerequisites` TEXT NOT NULL AFTER `description`;
 ALTER TABLE `content`
 ADD COLUMN `keywords` VARCHAR(255) NOT NULL AFTER `description`;
 
+-- ajout de colonne
+ALTER TABLE deletion_tutors
+ADD COLUMN admin_id INT;
+
 
 
