@@ -38,68 +38,76 @@ $total_bookmarked = $select_bookmark->rowCount();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
     <!-- custom css file link  -->
-<link rel="stylesheet" href="css/style.css">
- <style>
-.description {
-  background: radial-gradient(39.56% 48.29% at 20% 115.78%, #FF1675 0%, rgba(255, 22, 121, 0) 100%), radial-gradient(54.23% 74.52% at 69.72% -10.08%, #FF1675 0%, rgba(255, 22, 121, 0) 100%) , radial-gradient(21.67% 31.7% at 39.72% 107.79%, rgba(74, 51, 209, 0.8) 0%, rgba(74, 51, 209, 0) 100%), radial-gradient(40.08% 51.33% at 85.83% 24.14%, rgba(74, 51, 209, 0.8) 0%, rgba(74, 51, 209, 0) 100%), #242145 !important;
-  padding: 60px 20px; /* Adjusted padding: 40px top and bottom, 20px left and right */
-  border-radius: 10px;
-  border: 5px solid #39A1A7; 
-}
-.description-container {
-  font-family: Arial, sans-serif;
-  color: #333;
-  font-size: 16px;
-  line-height: 1.6;
-  display: flex; /* Center align content */
-  align-items: flex-start; /* Align items to the start of the flex container */
-}
-.text-container {
-  margin-top:60px;
-  flex: 1; /* Take remaining space */
-}
-.description-container h3{
-  font-weight: bold;
-  color: #ff67a5 ; 
-  font-size: 16px;
-  margin-bottom: 10px; 
-}
-.description-container h1 {
-  font-weight: bold;
-  color: white; /* Blue color */
-  margin-top:0px;
-  margin-bottom: 10px; /* Add some space below the heading */
-  font-size: 32px; 
-  font-family: "Racing Sans One", sans-serif;
-  text-align: justify;
-}
-.description-image {
-  max-width: 50%; /* Adjust the width of the image as needed */
-  margin-left: 20px; /* Add some space between the paragraph and the image */
-}
-.description-container p {
-  font-style: italic;
-  font-weight: bold;
-  color: #39A1A7;  
-  margin-bottom: 10px; 
-}
-</style>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .description {
+            background: radial-gradient(39.56% 48.29% at 20% 115.78%, #FF1675 0%, rgba(255, 22, 121, 0) 100%), radial-gradient(54.23% 74.52% at 69.72% -10.08%, #FF1675 0%, rgba(255, 22, 121, 0) 100%), radial-gradient(21.67% 31.7% at 39.72% 107.79%, rgba(74, 51, 209, 0.8) 0%, rgba(74, 51, 209, 0) 100%), radial-gradient(40.08% 51.33% at 85.83% 24.14%, rgba(74, 51, 209, 0.8) 0%, rgba(74, 51, 209, 0) 100%), #242145 !important;
+            padding: 60px 20px; /* Adjusted padding: 40px top and bottom, 20px left and right */
+            border-radius: 10px;
+            border: 5px solid #39A1A7;
+        }
+
+        .description-container {
+            font-family: Arial, sans-serif;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            display: flex; /* Center align content */
+            align-items: flex-start; /* Align items to the start of the flex container */
+        }
+
+        .text-container {
+            margin-top: 60px;
+            flex: 1; /* Take remaining space */
+        }
+
+        .description-container h3 {
+            font-weight: bold;
+            color: #ff67a5;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .description-container h1 {
+            font-weight: bold;
+            color: white; /* Blue color */
+            margin-top: 0px;
+            margin-bottom: 10px; /* Add some space below the heading */
+            font-size: 32px;
+            font-family: "Racing Sans One", sans-serif;
+            text-align: justify;
+        }
+
+        .description-image {
+            max-width: 50%; /* Adjust the width of the image as needed */
+            margin-left: 20px; /* Add some space between the paragraph and the image */
+        }
+
+        .description-container p {
+            font-style: italic;
+            font-weight: bold;
+            color: #39A1A7;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
 <?php include 'components/user_header.php'; ?>
-<section class="description">
-    <div class="description-container">
-        <div class="text-container">
-            <h1>Welcome to our learning platform</h1>
-            <h3>"Unlock your potential. Embrace the journey of learning."</h3>
-            <p>At our learning platform, we believe in empowering individuals to thrive through knowledge. Our comprehensive resources and interactive tools are designed to inspire curiosity, foster creativity, and drive meaningful learning experiences. Whether you're a student, professional, or lifelong learner, discover endless opportunities to expand your horizons and unlock your full potential with us. </p>
-            <a href="teacher/register.php" class="inline-btn">Get started as teacher</a>
-            <a href="login.php" class="inline-btn">Get started as student</a>
+<?php if(empty($user_id)): ?>
+    <section class="description">
+        <div class="description-container">
+            <div class="text-container">
+                <h1>Welcome to our learning platform</h1>
+                <h3>"Unlock your potential. Embrace the journey of learning."</h3>
+                <p>At our learning platform, we believe in empowering individuals to thrive through knowledge. Our comprehensive resources and interactive tools are designed to inspire curiosity, foster creativity, and drive meaningful learning experiences. Whether you're a student, professional, or lifelong learner, discover endless opportunities to expand your horizons and unlock your full potential with us. </p>
+                <a href="teacher/register.php" class="inline-btn">Get started as teacher</a>
+                <a href="register.php" class="inline-btn">Get started as student</a>
+            </div>
+            <img src="uploaded_files/platform.png" class="description-image">
         </div>
-        <img src="uploaded_files/platform.png" class="description-image">
-    </div>
-</section>
+    </section>
+<?php endif; ?>
 
 
     <!-- quick select section starts  -->

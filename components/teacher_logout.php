@@ -4,6 +4,6 @@
 
    setcookie('tutor_id', '', time() - 1, '/');
 
-   header('location:../teacher/login.php');
+   header('location:../home.php');
 
 ?>
