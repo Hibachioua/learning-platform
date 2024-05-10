@@ -81,11 +81,7 @@ if(isset($message)){
             <?php
         } else {
             ?>
-            <h3>please login or register</h3>
-            <div class="flex-btn" style="padding-top: .5rem;">
-                <a href="login.php" class="option-btn">login</a>
-                <a href="register.php" class="option-btn">register</a>
-            </div>
+            <a href="home.php"><img src="uploaded_files/learninglogov2.png" style="width: 200px; height: 200px;"></a>
             <?php
         }
         ?>
@@ -95,7 +91,7 @@ if(isset($message)){
         <a href="home.php"><i class="fa-solid fa-door-open"></i><span>home</span></a>
         <a href="courses.php"><i class="fa-solid fa-book"></i><span>courses</span></a>
         <a href="teachers.php"><i class="fa-solid fa-user-tie"></i><span>teachers</span></a>
-        <a href="announcements.php"><i class="fa-regular fa-bullhorn"></i><span>Announcements</span></a>
+        <a href="announcements.php"><i class="fa-solid fa-bullhorn"></i><span>Announcements</span></a>
     </nav>
 </div>
 <!-- Side bar section ends -->
