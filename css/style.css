@@ -154,7 +154,7 @@ section{
 
 .message span{
   font-size: 2rem;
-  color:var(--black);
+  color:#ffffff;
 }
 
 .message i{
@@ -224,7 +224,7 @@ section{
   width: 100%;
   background:none;
   font-size: 2rem;
-  color: var(--black);
+  color: var(--white);
 }
 
 .header .flex .search-form button{
@@ -934,7 +934,7 @@ section{
   border-radius: .5rem;
   background-color: var(--light-bg);
   padding: 1rem 1.5rem;
-  color: var(--black);
+  color: var(--white);
   margin: .5rem 0;
   position: relative;
   z-index: 0;

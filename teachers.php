@@ -45,11 +45,7 @@ if(isset($_COOKIE['user_id'])){
 
    <div class="box-container">
 
-      <div class="box offer">
-         <h3>Become a teacher</h3>
-         <p>become a teacher by creating an account an putting videos or pdfs or ppts..</p>
-         <a href="teacher/register.php" class="inline-btn">get started</a>
-      </div>
+     
 
       <?php
          $select_tutors = $conn->prepare("SELECT * FROM `tutors`");
@@ -80,7 +76,6 @@ if(isset($_COOKIE['user_id'])){
             <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
             <div>
                <h3><?= $fetch_tutor['name']; ?></h3>
-               <span><?= $fetch_tutor['profession']; ?></span>
             </div>
          </div>
          <p>playlists : <span><?= $total_playlists; ?></span></p>

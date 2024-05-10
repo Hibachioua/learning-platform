@@ -220,7 +220,7 @@ section {
 
 .message span {
   font-size: 2rem;
-  color: var(--bleueG);
+  color: #ffffff;
 }
 
 .message i {
@@ -1147,7 +1147,7 @@ section {
   border-radius: 0.5rem;
   background-color: var(--red);
   padding: 1rem 1.5rem;
-  color: var(--white);
+  color: var(--bleueM);
   margin: 0.5rem 0;
   position: relative;
   z-index: 0;

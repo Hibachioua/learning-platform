@@ -137,10 +137,9 @@ if(isset($_POST['edit_comment'])){
         rel="stylesheet">
     <!-- Font Awesome CDN link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <!-- Custom CSS file link -->
     <link rel="stylesheet" href="css/style.css">
     <style>
-    /* CSS for enlarging and centering the file viewer */
+      
 
     .watch-video {
         display: flex;
@@ -148,7 +147,7 @@ if(isset($_POST['edit_comment'])){
         justify-content: center;
         align-items: center;
         height: 80vh;
-        /* Adjust the height as needed */
+        
     }
 
     .watch-video p {
@@ -168,7 +167,6 @@ if(isset($_POST['edit_comment'])){
         text-transform: capitalize;
     }
 
-    /* Adjustments for the file viewer */
     .video,
     .audio {
         max-width: 100%;
@@ -212,23 +210,22 @@ if(isset($_POST['edit_comment'])){
             // Get file extension
             $file_extension = getFileExtension($fetch_content['video']);
 
-            // Check file extension and display appropriate viewer
+            
             if ($file_extension === 'pdf') {
-               // Display PDF viewer
+               
                echo '<embed src="uploaded_files/' . $fetch_content['video'] . '" type="application/pdf" class="pdf-viewer">';
             } elseif (in_array($file_extension, ['mp4', 'webm', 'ogg'])) {
-               // Display video player for supported video formats
+              
                echo '<video src="uploaded_files/' . $fetch_content['video'] . '" class="video" poster="uploaded_files/' . $fetch_content['thumb'] . '" controls autoplay></video>';
             } elseif ($file_extension === 'mp3') {
-               // Display audio player for MP3 files
+               
                echo '<audio controls class="audio"><source src="uploaded_files/' . $fetch_content['video'] . '" type="audio/mpeg">Your browser does not support the audio element.</audio>';
             } else {
-               // Display an error message for unsupported file types
+               
                echo '<p>Unsupported file type.</p>';
             }
    ?>
-        <!-- Remaining HTML for displaying other content details -->
-        <!-- Add the like, comment functionality, tutor info, etc. -->
+       
         <?php
          }
       } else {
@@ -309,7 +306,7 @@ if(isset($_POST['edit_comment'])){
                }
             ?>
                 </div>
-            </div>
+           
             <?php
             }
          }else{
