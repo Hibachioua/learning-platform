@@ -1,3 +1,28 @@
+<?php
+include '../components/connect.php';
+
+if(isset($_COOKIE['tutor_id'])){
+   $tutor_id = $_COOKIE['tutor_id'];
+}else{
+   $tutor_id = '';
+   header('location:login.php');
+}
+
+// Fetch teacher's content
+$select_teacher_content = $conn->prepare("SELECT * FROM content WHERE tutor_id = ?");
+$select_teacher_content->execute([$tutor_id]);
+$teacher_content = $select_teacher_content->fetchAll();
+
+// Fetch users
+$select_users = $conn->query("SELECT * FROM users");
+$users = $select_users->fetchAll();
+
+// Fetch tutors
+$select_tutors = $conn->query("SELECT * FROM tutors");
+$tutors = $select_tutors->fetchAll();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,10 +31,10 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Dashboard</title>
 
-   <!-- lien CDN pour Font Awesome -->
+   <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- lien vers le fichier CSS personnalisé -->
+   <!-- custom css file link  -->
    <link rel="stylesheet" href="../css/admin_style.css">
 
 </head>
@@ -19,22 +44,19 @@
    
 <section class="dashboard">
 
-   <!-- Titre du tableau des enseignants -->
-   <h1 class="heading">Tableau de bord</h1>
-    <h2 class="heading" >Enseignants</h2>
-         <!-- Tableau des enseignants -->
+   <h1 class="heading">Dashboard</h1>
+    <h2 class="heading" >Teachers</h2>
          <table class="content-table">
             <thead>
                <tr>
                   <th>ID</th>
-                  <th>Nom</th>
+                  <th>Name</th>
                   <th>Email</th>
-                  <th>Mot de passe</th>
+                  <th>Password</th>
                   
                </tr>
             </thead>
             <tbody>
-               <!-- Boucle pour afficher les données des enseignants -->
                <?php foreach ($tutors as $tutor) { ?>
                   <tr>
                      <td><?php echo $tutor['id']; ?></td>
@@ -57,20 +79,19 @@
       <br>
       <br>
       <br>
-   <h2 class="heading" >Étudiants</h2>
-   <!-- Tableau des étudiants -->
+
+   <h2 class="heading" >Students</h2>
    <table class="content-table">
             <thead>
                <tr>
                   <th>ID</th>
-                  <th>Nom</th>
+                  <th>Name</th>
                   <th>Email</th>
-                  <th>Mot de passe</th>
+                  <th>Password</th>
                  
                </tr>
             </thead>
             <tbody>
-               <!-- Boucle pour afficher les données des étudiants -->
                <?php foreach ($users as $user) { ?>
                   <tr>
                      <td><?php echo $user['id']; ?></td>
@@ -81,10 +102,13 @@
                   </tr>
                <?php } ?>
             </tbody>
-         </table> 
+         </table>
+     
+
+   
+   
 </section>
 
-<!-- lien vers le fichier JavaScript personnalisé -->
 <script src="../js/admin_script.js"></script>
 
 </body>
