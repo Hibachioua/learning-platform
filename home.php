@@ -98,7 +98,7 @@ $total_bookmarked = $select_bookmark->rowCount();
     <section class="description">
         <div class="description-container">
             <div class="text-container">
-                <h1>Welcome to our learning platform</h1>
+                <h1>Welcome to EduHub, </h1>
                 <h3>"Unlock your potential. Embrace the journey of learning."</h3>
                 <p>At our learning platform, we believe in empowering individuals to thrive through knowledge. Our comprehensive resources and interactive tools are designed to inspire curiosity, foster creativity, and drive meaningful learning experiences. Whether you're a student, professional, or lifelong learner, discover endless opportunities to expand your horizons and unlock your full potential with us. </p>
                 <a href="teacher/register.php" class="inline-btn">Get started as teacher</a>
