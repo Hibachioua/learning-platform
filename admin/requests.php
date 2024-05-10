@@ -84,6 +84,7 @@ $deletion_requests_tutors = $select_deletion_requests_tutors->fetchAll();
 <body>
 <?php include '../components/admin_header.php'; ?>
 <div class="deletion-requests">
+    <!-- affichage des demandes de suppression pour l'etudinat -->
     <h1 class="attente"><center>Deletion requests for students</center></h1>
     <ul >
         <?php foreach ($deletion_requests as $request) : ?>
@@ -96,8 +97,7 @@ $deletion_requests_tutors = $select_deletion_requests_tutors->fetchAll();
             </li>
         <?php endforeach; ?>
     </ul>
-</div>
-
+<!-- affichage des demandes de suppressions pour les professeurs -->
 <h1 class="attente"><center>Deletion requests for tutors</center></h1>
     <ul>
         <?php foreach ($deletion_requests_tutors as $dm) : ?>
