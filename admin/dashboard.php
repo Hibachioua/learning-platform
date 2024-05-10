@@ -1,28 +1,3 @@
-<?php
-include '../components/connect.php';
-
-if(isset($_COOKIE['tutor_id'])){
-   $tutor_id = $_COOKIE['tutor_id'];
-}else{
-   $tutor_id = '';
-   header('location:login.php');
-}
-
-// Fetch teacher's content
-$select_teacher_content = $conn->prepare("SELECT * FROM content WHERE tutor_id = ?");
-$select_teacher_content->execute([$tutor_id]);
-$teacher_content = $select_teacher_content->fetchAll();
-
-// Fetch users
-$select_users = $conn->query("SELECT * FROM users");
-$users = $select_users->fetchAll();
-
-// Fetch tutors
-$select_tutors = $conn->query("SELECT * FROM tutors");
-$tutors = $select_tutors->fetchAll();
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,10 +6,10 @@ $tutors = $select_tutors->fetchAll();
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Dashboard</title>
 
-   <!-- font awesome cdn link  -->
+   <!-- lien CDN pour Font Awesome -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
+   <!-- lien vers le fichier CSS personnalisé -->
    <link rel="stylesheet" href="../css/admin_style.css">
 
 </head>
@@ -44,19 +19,22 @@ $tutors = $select_tutors->fetchAll();
    
 <section class="dashboard">
 
-   <h1 class="heading">Dashboard</h1>
-    <h2 class="heading" >Teachers</h2>
+   <!-- Titre du tableau des enseignants -->
+   <h1 class="heading">Tableau de bord</h1>
+    <h2 class="heading" >Enseignants</h2>
+         <!-- Tableau des enseignants -->
          <table class="content-table">
             <thead>
                <tr>
                   <th>ID</th>
-                  <th>Name</th>
+                  <th>Nom</th>
                   <th>Email</th>
-                  <th>Password</th>
+                  <th>Mot de passe</th>
                   
                </tr>
             </thead>
             <tbody>
+               <!-- Boucle pour afficher les données des enseignants -->
                <?php foreach ($tutors as $tutor) { ?>
                   <tr>
                      <td><?php echo $tutor['id']; ?></td>
@@ -79,19 +57,20 @@ $tutors = $select_tutors->fetchAll();
       <br>
       <br>
       <br>
-
-   <h2 class="heading" >Students</h2>
+   <h2 class="heading" >Étudiants</h2>
+   <!-- Tableau des étudiants -->
    <table class="content-table">
             <thead>
                <tr>
                   <th>ID</th>
-                  <th>Name</th>
+                  <th>Nom</th>
                   <th>Email</th>
-                  <th>Password</th>
+                  <th>Mot de passe</th>
                  
                </tr>
             </thead>
             <tbody>
+               <!-- Boucle pour afficher les données des étudiants -->
                <?php foreach ($users as $user) { ?>
                   <tr>
                      <td><?php echo $user['id']; ?></td>
@@ -102,13 +81,10 @@ $tutors = $select_tutors->fetchAll();
                   </tr>
                <?php } ?>
             </tbody>
-         </table>
-     
-
-   
-   
+         </table> 
 </section>
 
+<!-- lien vers le fichier JavaScript personnalisé -->
 <script src="../js/admin_script.js"></script>
 
 </body>

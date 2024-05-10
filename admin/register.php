@@ -1,44 +1,50 @@
 <?php
 
-include '../components/connect.php';
+   include '../components/connect.php';
 
-if(isset($_POST['submit'])){
+   // Vérification si le formulaire d'inscription a été soumis
+   if(isset($_POST['submit'])){
 
-   $id = unique_id();
-   $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_STRING);
-   $email = $_POST['email'];
-   $email = filter_var($email, FILTER_SANITIZE_STRING);
-   $pass = sha1($_POST['pass']);
-   $pass = filter_var($pass, FILTER_SANITIZE_STRING);
-   $cpass = sha1($_POST['cpass']);
-   $cpass = filter_var($cpass, FILTER_SANITIZE_STRING);
+      // Génération d'un ID unique pour l'administrateur
+      $id = unique_id();
+      $name = $_POST['name'];
+      $name = filter_var($name, FILTER_SANITIZE_STRING); // Nettoyage du nom
+      $email = $_POST['email'];
+      $email = filter_var($email, FILTER_SANITIZE_STRING); 
+      $pass = sha1($_POST['pass']); // Hashage du mot de passe
+      $pass = filter_var($pass, FILTER_SANITIZE_STRING); 
+      $cpass = sha1($_POST['cpass']); // Hashage du mot de passe de confirmation
+      $cpass = filter_var($cpass, FILTER_SANITIZE_STRING); 
 
-   $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_STRING);
-   $ext = pathinfo($image, PATHINFO_EXTENSION);
-   $rename = unique_id().'.'.$ext;
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = '../uploaded_files/'.$rename;
+      // Récupération des informations sur l'image téléchargée
+      $image = $_FILES['image']['name'];
+      $image = filter_var($image, FILTER_SANITIZE_STRING); 
+      $ext = pathinfo($image, PATHINFO_EXTENSION);
+      $rename = unique_id().'.'.$ext; 
+      $image_size = $_FILES['image']['size'];
+      $image_tmp_name = $_FILES['image']['tmp_name'];
+      $image_folder = '../uploaded_files/'.$rename;
 
-   $select_admin = $conn->prepare("SELECT * FROM `admin` WHERE email = ?");
-   $select_admin->execute([$email]);
-   
-   if($select_admin->rowCount() > 0){
-      $message[] = 'email already taken!';
-   }else{
-      if($pass != $cpass){
-         $message[] = 'confirm passowrd not matched!';
+      // Vérification si l'email est déjà utilisé par un autre administrateur
+      $select_admin = $conn->prepare("SELECT * FROM `admin` WHERE email = ?");
+      $select_admin->execute([$email]);
+      
+      if($select_admin->rowCount() > 0){
+         $message[] = 'Email déjà utilisé !';
       }else{
-         $insert_admin = $conn->prepare("INSERT INTO `admin`(id, name, email, password, image) VALUES(?,?,?,?,?)");
-         $insert_admin->execute([$id, $name, $email, $cpass, $rename]);
-         move_uploaded_file($image_tmp_name, $image_folder);
-         $message[] = 'new admin registered! please login now';
+         // Vérification si les mots de passe correspondent
+         if($pass != $cpass){
+            $message[] = 'Les mots de passe ne correspondent pas !';
+         }else{
+            // Insertion d'un nouvel administrateur dans la base de données
+            $insert_admin = $conn->prepare("INSERT INTO `admin`(id, name, email, password, image) VALUES(?,?,?,?,?)");
+            $insert_admin->execute([$id, $name, $email, $cpass, $rename]);
+            move_uploaded_file($image_tmp_name, $image_folder); 
+            $message[] = 'Nouvel administrateur enregistré ! Veuillez vous connecter maintenant';
+         }
       }
-   }
 
-}
+   }
 
 ?>
 
@@ -61,81 +67,70 @@ if(isset($_POST['submit'])){
 <body style="padding-left: 0;">
 
 <?php
-if(isset($message)){
-   foreach($message as $message){
-      echo '
-      <div class="message form">
-         <span>'.$message.'</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-      </div>
-      ';
+   // Affichage des messages d'erreur ou de succès
+   if(isset($message)){
+      foreach($message as $message){
+         echo '
+         <div class="message form">
+            <span>'.$message.'</span>
+            <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+         </div>
+         ';
+      }
    }
-}
 ?>
 
-<!-- register section starts  -->
+   <section class="form-container">
 
-<section class="form-container">
-
-   <form class="register" action="" method="post" enctype="multipart/form-data">
-      <h3>register new</h3>
-      <div class="flex">
-         <div class="col">
-            <p>Your name <span>*</span></p>
-            <input type="text" name="name" placeholder="enter your name" maxlength="50" required class="box">
-            <p>Your email <span>*</span></p>
-            <input type="email" name="email" placeholder="enter your email" maxlength="20" required class="box">
+      <!-- Formulaire d'inscription d'un nouvel administrateur -->
+      <form class="register" action="" method="post" enctype="multipart/form-data">
+         <h3>Enregistrer un nouvel administrateur</h3>
+         <div class="flex">
+            <div class="col">
+               <p>Votre nom <span>*</span></p>
+               <input type="text" name="name" placeholder="Entrez votre nom" maxlength="50" required class="box">
+               <p>Votre email <span>*</span></p>
+               <input type="email" name="email" placeholder="Entrez votre email" maxlength="20" required class="box">
+            </div>
+            <div class="col">
+               <p>Votre mot de passe <span>*</span></p>
+               <input type="password" name="pass" placeholder="Entrez votre mot de passe" maxlength="20" required class="box">
+               <p>Confirmer le mot de passe <span>*</span></p>
+               <input type="password" name="cpass" placeholder="Confirmez votre mot de passe" maxlength="20" required class="box">
+               <p>Sélectionnez une image <span>*</span></p>
+               <input type="file" name="image" accept="image/*" required class="box">
+            </div>
          </div>
-         <div class="col">
-            <p>Your password <span>*</span></p>
-            <input type="password" name="pass" placeholder="enter your password" maxlength="20" required class="box">
-            <p>Confirm password <span>*</span></p>
-            <input type="password" name="cpass" placeholder="confirm your password" maxlength="20" required class="box">
-            <p>Select pic <span>*</span></p>
-            <input type="file" name="image" accept="image/*" required class="box">
-         </div>
-      </div>
-      <p class="link">Already have an account? <a href="login.php">Login now</a></p>
-      <input type="submit" name="submit" value="register now" class="btn">
-   </form>
+         <!-- Lien pour se connecter si l'utilisateur a déjà un compte -->
+         <p class="link">Vous avez déjà un compte? <a href="login.php">Connectez-vous maintenant</a></p>
+         <input type="submit" name="submit" value="S'inscrire maintenant" class="btn">
+      </form>
 
-</section>
+   </section>
 
-<!-- registe section ends -->
+   <script>
 
+      // Script pour activer ou désactiver le mode sombre enregistré dans le stockage local
+      let darkMode = localStorage.getItem('dark-mode');
+      let body = document.body;
 
+      const enabelDarkMode = () =>{
+         body.classList.add('dark');
+         localStorage.setItem('dark-mode', 'enabled');
+      }
 
+      const disableDarkMode = () =>{
+         body.classList.remove('dark');
+         localStorage.setItem('dark-mode', 'disabled');
+      }
 
+      if(darkMode === 'enabled'){
+         enabelDarkMode();
+      }else{
+         disableDarkMode();
+      }
 
-
-
-
-
-
-
-
-<script>
-
-let darkMode = localStorage.getItem('dark-mode');
-let body = document.body;
-
-const enabelDarkMode = () =>{
-   body.classList.add('dark');
-   localStorage.setItem('dark-mode', 'enabled');
-}
-
-const disableDarkMode = () =>{
-   body.classList.remove('dark');
-   localStorage.setItem('dark-mode', 'disabled');
-}
-
-if(darkMode === 'enabled'){
-   enabelDarkMode();
-}else{
-   disableDarkMode();
-}
-
-</script>
+   </script>
    
 </body>
 </html>
