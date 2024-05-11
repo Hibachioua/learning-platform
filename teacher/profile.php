@@ -17,9 +17,6 @@
    $select_contents->execute([$tutor_id]);
    $total_contents = $select_contents->rowCount();
 
-   $select_likes = $conn->prepare("SELECT * FROM `likes` WHERE tutor_id = ?");
-   $select_likes->execute([$tutor_id]);
-   $total_likes = $select_likes->rowCount();
 
    $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE tutor_id = ?");
    $select_comments->execute([$tutor_id]);
@@ -83,11 +80,6 @@ if(isset($_POST['delete_teacher'])) {
          <div class="box">
             <span><?= $total_contents; ?></span>
             <p>total videos</p>
-            <a href="contents.php" class="btn">view contents</a>
-         </div>
-         <div class="box">
-            <span><?= $total_likes; ?></span>
-            <p>total likes</p>
             <a href="contents.php" class="btn">view contents</a>
          </div>
          <div class="box">
