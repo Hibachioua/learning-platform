@@ -114,9 +114,6 @@ if(isset($_POST['delete_video'])){
    $fetch_video = $delete_video->fetch(PDO::FETCH_ASSOC);
    unlink('../uploaded_files/'.$fetch_video['video']);
 
-   // Supprimer les likes associés à la vidéo
-   $delete_likes = $conn->prepare("DELETE FROM `likes` WHERE content_id = ?");
-   $delete_likes->execute([$delete_id]);
    // Supprimer les commentaires associés à la vidéo
    $delete_comments = $conn->prepare("DELETE FROM `comments` WHERE content_id = ?");
    $delete_comments->execute([$delete_id]);
