@@ -1,54 +1,76 @@
 <?php
 
+// Inclure le fichier de connexion à la base de données
 include '../components/connect.php';
 
+// Vérifier si le cookie 'tutor_id' est défini
 if(isset($_COOKIE['tutor_id'])){
    $tutor_id = $_COOKIE['tutor_id'];
 }else{
    $tutor_id = '';
+   // Rediriger vers la page de connexion si le cookie n'est pas défini
    header('location:login.php');
 }
 
+// Vérifier si 'get_id' est passé dans l'URL
 if(isset($_GET['get_id'])){
    $get_id = $_GET['get_id'];
 }else{
    $get_id = '';
+   // Rediriger vers la page des contenus si 'get_id' n'est pas fourni
    header('location:contents.php');
 }
 
+// Si le formulaire de suppression de vidéo est soumis
 if(isset($_POST['delete_video'])){
 
+   // Récupérer et filtrer l'ID de la vidéo à supprimer
    $delete_id = $_POST['video_id'];
    $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
 
+   // Supprimer la miniature de la vidéo du serveur
    $delete_video_thumb = $conn->prepare("SELECT thumb FROM `content` WHERE id = ? LIMIT 1");
    $delete_video_thumb->execute([$delete_id]);
    $fetch_thumb = $delete_video_thumb->fetch(PDO::FETCH_ASSOC);
    unlink('../uploaded_files/'.$fetch_thumb['thumb']);
 
+   // Supprimer la vidéo du serveur
    $delete_video = $conn->prepare("SELECT video FROM `content` WHERE id = ? LIMIT 1");
    $delete_video->execute([$delete_id]);
    $fetch_video = $delete_video->fetch(PDO::FETCH_ASSOC);
    unlink('../uploaded_files/'.$fetch_video['video']);
 
+<<<<<<< HEAD
+=======
+   // Supprimer les likes associés à la vidéo
+   $delete_likes = $conn->prepare("DELETE FROM `likes` WHERE content_id = ?");
+   $delete_likes->execute([$delete_id]);
+   // Supprimer les commentaires associés à la vidéo
+>>>>>>> b9649faadb4d35d9d2d5a95360d6b2081d54f856
    $delete_comments = $conn->prepare("DELETE FROM `comments` WHERE content_id = ?");
    $delete_comments->execute([$delete_id]);
 
+   // Supprimer la vidéo de la base de données
    $delete_content = $conn->prepare("DELETE FROM `content` WHERE id = ?");
    $delete_content->execute([$delete_id]);
+   
+   // Rediriger vers la page des contenus après suppression
    header('location:contents.php');
-    
 }
 
+// Si le formulaire de suppression de commentaire est soumis
 if(isset($_POST['delete_comment'])){
 
+   // Récupérer et filtrer l'ID du commentaire à supprimer
    $delete_id = $_POST['comment_id'];
    $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
 
+   // Vérifier si le commentaire existe
    $verify_comment = $conn->prepare("SELECT * FROM `comments` WHERE id = ?");
    $verify_comment->execute([$delete_id]);
 
    if($verify_comment->rowCount() > 0){
+      // Supprimer le commentaire de la base de données
       $delete_comment = $conn->prepare("DELETE FROM `comments` WHERE id = ?");
       $delete_comment->execute([$delete_id]);
       $message[] = 'comment deleted successfully!';
@@ -68,21 +90,21 @@ if(isset($_POST['delete_comment'])){
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>view content</title>
 
-   <!-- font awesome cdn link  -->
+   <!-- Lien CDN pour Font Awesome -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
+   <!-- Lien vers le fichier CSS personnalisé -->
    <link rel="stylesheet" href="../css/teacher_style.css">
    <style>
-      /* Additional CSS styles for centering and enlarging the display part */
+      /* Styles CSS supplémentaires pour centrer et agrandir la partie d'affichage */
       .container {
          display: flex;
          flex-direction: column;
          align-items: center;
       }
       .pdf-viewer, .image-viewer, .video {
-         width: 100%; /* Adjust the width as needed */
-         height: 100%; /* Limit maximum height */
+         width: 100%; /* Ajuster la largeur selon les besoins */
+         height: 100%; /* Limiter la hauteur maximale */
       }
       .no-file-description {
          font-size: 20px;
@@ -100,12 +122,24 @@ if(isset($_POST['delete_comment'])){
 <section class="view-content">
 
    <?php
+      // Sélectionner le contenu à afficher
       $select_content = $conn->prepare("SELECT * FROM `content` WHERE id = ? AND tutor_id = ?");
       $select_content->execute([$get_id, $tutor_id]);
+      
+      // Vérifier si des contenus ont été trouvés
       if($select_content->rowCount() > 0){
          while($fetch_content = $select_content->fetch(PDO::FETCH_ASSOC)){
             $video_id = $fetch_content['id'];
 
+<<<<<<< HEAD
+=======
+            // Compter le nombre de likes pour la vidéo
+            $count_likes = $conn->prepare("SELECT * FROM `likes` WHERE tutor_id = ? AND content_id = ?");
+            $count_likes->execute([$tutor_id, $video_id]);
+            $total_likes = $count_likes->rowCount();
+
+            // Compter le nombre de commentaires pour la vidéo
+>>>>>>> b9649faadb4d35d9d2d5a95360d6b2081d54f856
             $count_comments = $conn->prepare("SELECT * FROM `comments` WHERE tutor_id = ? AND content_id = ?");
             $count_comments->execute([$tutor_id, $video_id]);
             $total_comments = $count_comments->rowCount();
@@ -152,6 +186,7 @@ if(isset($_POST['delete_comment'])){
    <?php
     }
    }else{
+      // Message affiché si aucun contenu n'est trouvé
       echo '<p class="empty">no contents added yet! <a href="add_content.php" class="btn" style="margin-top: 1.5rem;">add videos</a></p>';
    }
       
@@ -166,8 +201,11 @@ if(isset($_POST['delete_comment'])){
    
    <div class="show-comments">
       <?php
+         // Sélectionner les commentaires associés au contenu
          $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE content_id = ?");
          $select_comments->execute([$get_id]);
+         
+         // Vérifier si des commentaires ont été trouvés
          if($select_comments->rowCount() > 0){
             while($fetch_comment = $select_comments->fetch(PDO::FETCH_ASSOC)){   
                $select_commentor = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
@@ -191,6 +229,7 @@ if(isset($_POST['delete_comment'])){
       <?php
        }
       }else{
+         // Message affiché si aucun commentaire n'est trouvé
          echo '<p class="empty">no comments added yet!</p>';
       }
       ?>

@@ -1,34 +1,43 @@
 <?php
 
-   include '../components/connect.php';
+// Inclure le fichier de connexion à la base de données
+include '../components/connect.php';
 
-   if(isset($_COOKIE['tutor_id'])){
-      $tutor_id = $_COOKIE['tutor_id'];
-   }else{
-      $tutor_id = '';
-      header('location:login.php');
-   }
+// Vérifier si le cookie 'tutor_id' est défini
+if(isset($_COOKIE['tutor_id'])){
+   $tutor_id = $_COOKIE['tutor_id'];
+}else{
+   $tutor_id = '';
+   // Rediriger vers la page de connexion si le cookie n'est pas défini
+   header('location:login.php');
+}
 
+// Si le formulaire est soumis
 if(isset($_POST['submit'])){
 
+   // Sélectionner le tuteur actuel à partir de la base de données
    $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ? LIMIT 1");
    $select_tutor->execute([$tutor_id]);
    $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
 
+   // Stocker les valeurs actuelles du mot de passe et de l'image
    $prev_pass = $fetch_tutor['password'];
    $prev_image = $fetch_tutor['image'];
 
+   // Récupérer et filtrer les nouvelles données du formulaire
    $name = $_POST['name'];
    $name = filter_var($name, FILTER_SANITIZE_STRING);
    $email = $_POST['email'];
    $email = filter_var($email, FILTER_SANITIZE_STRING);
 
+   // Mettre à jour le nom si un nouveau nom est fourni
    if(!empty($name)){
       $update_name = $conn->prepare("UPDATE `tutors` SET name = ? WHERE id = ?");
       $update_name->execute([$name, $tutor_id]);
       $message[] = 'username updated successfully!';
    }
 
+   // Mettre à jour l'email si un nouvel email est fourni
    if(!empty($email)){
       $select_email = $conn->prepare("SELECT email FROM `tutors` WHERE id = ? AND email = ?");
       $select_email->execute([$tutor_id, $email]);
@@ -41,6 +50,7 @@ if(isset($_POST['submit'])){
       }
    }
 
+   // Récupérer et traiter la nouvelle image
    $image = $_FILES['image']['name'];
    $image = filter_var($image, FILTER_SANITIZE_STRING);
    $ext = pathinfo($image, PATHINFO_EXTENSION);
@@ -49,6 +59,7 @@ if(isset($_POST['submit'])){
    $image_tmp_name = $_FILES['image']['tmp_name'];
    $image_folder = '../uploaded_files/'.$rename;
 
+   // Mettre à jour l'image si une nouvelle image est fournie
    if(!empty($image)){
       if($image_size > 2000000){
          $message[] = 'image size too large!';
@@ -63,6 +74,7 @@ if(isset($_POST['submit'])){
       }
    }
 
+   // Gestion des mots de passe
    $empty_pass = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
    $old_pass = sha1($_POST['old_pass']);
    $old_pass = filter_var($old_pass, FILTER_SANITIZE_STRING);
@@ -71,6 +83,7 @@ if(isset($_POST['submit'])){
    $cpass = sha1($_POST['cpass']);
    $cpass = filter_var($cpass, FILTER_SANITIZE_STRING);
 
+   // Vérifier et mettre à jour le mot de passe
    if($old_pass != $empty_pass){
       if($old_pass != $prev_pass){
          $message[] = 'old password not matched!';
@@ -101,10 +114,10 @@ if(isset($_POST['submit'])){
     <title>Update Profile</title>
 
 
-    <!-- font awesome cdn link  -->
+    <!-- Lien CDN pour Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-    <!-- custom css file link  -->
+    <!-- Lien vers le fichier CSS personnalisé -->
     <link rel="stylesheet" href="../css/teacher_style.css">
 
 </head>
@@ -113,7 +126,7 @@ if(isset($_POST['submit'])){
 
     <?php include '../components/teacher_header.php'; ?>
 
-    <!-- register section starts  -->
+    <!-- Section de mise à jour du profil commence -->
 
     <section class="form-container" style="min-height: calc(100vh - 19rem);">
 
@@ -147,4 +160,4 @@ if(isset($_POST['submit'])){
 
     </section>
 
-    <!-- registe section ends -->
+    <!-- Section de mise à jour du profil se termine -->
