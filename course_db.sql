@@ -4,6 +4,8 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
+
+
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
@@ -17,6 +19,8 @@ CREATE TABLE `admin` (
 INSERT INTO `admin` (`id`, `name`, `email`, `password`, `image`) VALUES
 (1, 'Admin', 'chioua.hiba1@gmail.com', 'ab28cfc74820d6462adabc4f2c4221b803a83507', 'cDM2EJ51so4lEcXg3O0M.avif');
 
+
+
 CREATE TABLE `Announcements` (
   `announcement_id` int(11) NOT NULL,
   `tutor_id` varchar(20) NOT NULL,
@@ -27,11 +31,11 @@ CREATE TABLE `Announcements` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
+
 CREATE TABLE `bookmark` (
   `user_id` varchar(20) NOT NULL,
   `playlist_id` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 
 
 CREATE TABLE `comments` (
@@ -43,6 +47,7 @@ CREATE TABLE `comments` (
   `date` timestamp NOT NULL DEFAULT current_timestamp(),
   `parent_id` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 
 
@@ -62,7 +67,11 @@ CREATE TABLE `content` (
 
 
 INSERT INTO `content` (`id`, `tutor_id`, `playlist_id`, `title`, `description`, `prerequisites`, `keywords`, `video`, `thumb`, `date`, `status`) VALUES
-('MNTBzCBOoGfP7ii5HRoG', '1', 'X4fKXwWjtOO7rV3iZ6Om', 'Chapitre 1: Les pointeurs', 'Après ce cours,vous devez être capables de travailler avec les pointeurs.', 'Vous devez avoir des notions sur les tableaux.', 'C avancé,Tableaux,Pointeurs', 'gZ24YPQaQjtbjlHBJNL9.pdf', 'ScrZH8BgX3om5nNOCLPf.png', '2024-05-11', 'active');
+('MNTBzCBOoGfP7ii5HRoG', '1', 'X4fKXwWjtOO7rV3iZ6Om', 'Chapitre 1: Les pointeurs', 'Après ce cours,vous devez être capables de travailler avec les pointeurs.', 'Vous devez avoir des notions sur les tableaux.', 'C avancé,Tableaux,Pointeurs', 'gZ24YPQaQjtbjlHBJNL9.pdf', 'ScrZH8BgX3om5nNOCLPf.png', '2024-05-11', 'active'),
+('XJrs1cZCXMSyEgLMMY5y', '1', 'X4fKXwWjtOO7rV3iZ6Om', 'Chapitre 2:  Les structures ', 'Ce cours est pour apprendre tous ce qui est en relation avec les structures', 'Vous devez avoir des notions sur les variables et leurs types', 'C avancé,Structures,Pointeurs,Variables', 'eUQT5OMWW0Da883xkOEB.pdf', 'ZWSf5RGLkwsHPNBcUBoF.png', '2024-05-11', 'active'),
+('WsLWqQMFv4TePW1vJlDT', '1', 'fLWCm2uzhKu7U4PYuDg9', 'Chapitre 1: Système à microprocesseur', 'C&#39;est un cours pour comprendre le fonctionnement de microprocesseurs', 'Quelques notions sur la memoire et les microprocesseurs', 'microprocesseurs', 'z7lMLosr6L8XpEn2JLNN.pdf', 'rmNGfPQa4YCnTqu3gHAc.jpg', '2024-05-11', 'active'),
+('SzusSLQyCj2mR19manoJ', '1', 'fLWCm2uzhKu7U4PYuDg9', 'Chapitre 2: Systemes de numeration', 'Vous devez comprendre comment convertir d&#39;un base quelconque vers une base quelconque', 'Quelques notions sur le binaire,hexadecimal', 'binaire,hexadecimal,decimal,octal,systemes', 'eGMa4n5Ie3Feva7WjhRJ.pdf', 'bCN3t4bfhB1ZVd6b0jAT.jpg', '2024-05-11', 'active'),
+('8MH9rncBu5MumhCLKGu3', '1', 'fLWCm2uzhKu7U4PYuDg9', 'Chapitre 2: Systemes de numeration', 'Vous devez comprendre comment convertir d&#39;un base quelconque vers une base quelconque', 'Quelques notions sur le binaire,hexadecimal', 'binaire,hexadecimal,decimal,octal,systemes', 'L7Z94A0oWnPmrU1yG9aa.pdf', 'QxdY9HcXTSSXxUdwivzh.jpg', '2024-05-11', 'active');
 
 
 CREATE TABLE `deletion_requests` (
@@ -98,8 +107,8 @@ CREATE TABLE `playlist` (
 
 
 INSERT INTO `playlist` (`id`, `tutor_id`, `title`, `description`, `thumb`, `date`, `status`) VALUES
-('X4fKXwWjtOO7rV3iZ6Om', '1', 'C Avancé', 'Dans ce cours, vous serez capables de comprendre tous ce qui est en relation avec le langage de programmation C', 'cJz0NyuulJnFrzCiVzAE.png', '2024-05-11', 'active');
-
+('X4fKXwWjtOO7rV3iZ6Om', '1', 'C Avancé', 'Dans ce cours, vous serez capables de comprendre tous ce qui est en relation avec le langage de programmation C', 'cJz0NyuulJnFrzCiVzAE.png', '2024-05-11', 'active'),
+('fLWCm2uzhKu7U4PYuDg9', '1', 'Architecture des ordinateurs', 'Après ces cours,vous serez capables de comprendre le fonctionnement de la memoire et les differents composants de l&#39;ordinateur', 'JuqKEu1k7ZCJEiuk9O17.jpg', '2024-05-11', 'active');
 
 
 CREATE TABLE `tutors` (
@@ -140,6 +149,7 @@ ALTER TABLE `Announcements`
 
 ALTER TABLE `tutors`
   ADD PRIMARY KEY (`id`);
+
 
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
