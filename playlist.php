@@ -1,47 +1,57 @@
 <?php
 
+// Inclure le fichier de connexion à la base de données
 include 'components/connect.php';
 
+// Vérifier si l'identifiant de l'utilisateur est défini dans les cookies
 if(isset($_COOKIE['user_id'])){
    $user_id = $_COOKIE['user_id'];
 }else{
    $user_id = '';
 }
 
+// Vérifier si l'identifiant de la playlist à récupérer est défini dans les paramètres GET
 if(isset($_GET['get_id'])){
    $get_id = $_GET['get_id'];
 }else{
    $get_id = '';
+   // Rediriger vers la page d'accueil si aucun identifiant de playlist n'est spécifié
    header('location:home.php');
 }
 
+// Traiter la soumission du formulaire pour enregistrer la playlist
 if(isset($_POST['save_list'])){
 
+   // Vérifier si l'utilisateur est connecté
    if($user_id != ''){
       
+      // Récupérer et filtrer l'identifiant de la playlist à enregistrer
       $list_id = $_POST['list_id'];
       $list_id = filter_var($list_id, FILTER_SANITIZE_STRING);
 
+      // Vérifier si la playlist est déjà enregistrée dans les favoris de l'utilisateur
       $select_list = $conn->prepare("SELECT * FROM `bookmark` WHERE user_id = ? AND playlist_id = ?");
       $select_list->execute([$user_id, $list_id]);
 
+      // Si la playlist est déjà enregistrée, la supprimer des favoris de l'utilisateur
       if($select_list->rowCount() > 0){
          $remove_bookmark = $conn->prepare("DELETE FROM `bookmark` WHERE user_id = ? AND playlist_id = ?");
          $remove_bookmark->execute([$user_id, $list_id]);
          $message[] = 'Playlist removed!';
-      }else{
+      }else{ // Sinon, enregistrer la playlist dans les favoris de l'utilisateur
          $insert_bookmark = $conn->prepare("INSERT INTO `bookmark`(user_id, playlist_id) VALUES(?,?)");
          $insert_bookmark->execute([$user_id, $list_id]);
          $message[] = 'Playlist saved!';
       }
 
-   }else{
+   }else{ // Si l'utilisateur n'est pas connecté, afficher un message d'erreur
       $message[] = 'Please login first!';
    }
 
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,10 +62,8 @@ if(isset($_POST['save_list'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>playlist</title>
 
-    <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-    <!-- custom css file link  -->
     <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -103,7 +111,8 @@ if(isset($_POST['save_list'])){
                     <?php
                }else{
             ?>
-                    <button type="submit" name="save_list"><i class="far fa-bookmark"></i><span>Save playlist</span></button>
+                    <button type="submit" name="save_list"><i class="far fa-bookmark"></i><span>Save
+                            playlist</span></button>
                     <?php
                }
             ?>

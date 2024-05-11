@@ -167,7 +167,7 @@ if(isset($_POST['delete_comment'])){
                echo '<p>Unsupported file type.</p>';
             }
    ?>
-    <?php
+        <?php
          }
       } else {
          echo '<p class="empty">No videos added yet!</p>';
