@@ -40,13 +40,10 @@ if(isset($_POST['delete_video'])){
    $fetch_video = $delete_video->fetch(PDO::FETCH_ASSOC);
    unlink('../uploaded_files/'.$fetch_video['video']);
 
-<<<<<<< HEAD
-=======
    // Supprimer les likes associés à la vidéo
    $delete_likes = $conn->prepare("DELETE FROM `likes` WHERE content_id = ?");
    $delete_likes->execute([$delete_id]);
    // Supprimer les commentaires associés à la vidéo
->>>>>>> b9649faadb4d35d9d2d5a95360d6b2081d54f856
    $delete_comments = $conn->prepare("DELETE FROM `comments` WHERE content_id = ?");
    $delete_comments->execute([$delete_id]);
 
@@ -131,15 +128,13 @@ if(isset($_POST['delete_comment'])){
          while($fetch_content = $select_content->fetch(PDO::FETCH_ASSOC)){
             $video_id = $fetch_content['id'];
 
-<<<<<<< HEAD
-=======
             // Compter le nombre de likes pour la vidéo
             $count_likes = $conn->prepare("SELECT * FROM `likes` WHERE tutor_id = ? AND content_id = ?");
             $count_likes->execute([$tutor_id, $video_id]);
             $total_likes = $count_likes->rowCount();
 
             // Compter le nombre de commentaires pour la vidéo
->>>>>>> b9649faadb4d35d9d2d5a95360d6b2081d54f856
+
             $count_comments = $conn->prepare("SELECT * FROM `comments` WHERE tutor_id = ? AND content_id = ?");
             $count_comments->execute([$tutor_id, $video_id]);
             $total_comments = $count_comments->rowCount();
