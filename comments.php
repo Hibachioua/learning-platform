@@ -71,32 +71,7 @@ if(isset($_POST['update_now'])){
 
 <?php include 'components/user_header.php'; ?>
 
-<?php
-   if(isset($_POST['edit_comment'])){
-      $edit_id = $_POST['comment_id'];
-      $edit_id = filter_var($edit_id, FILTER_SANITIZE_STRING);
-      $verify_comment = $conn->prepare("SELECT * FROM `comments` WHERE id = ? LIMIT 1");
-      $verify_comment->execute([$edit_id]);
-      if($verify_comment->rowCount() > 0){
-         $fetch_edit_comment = $verify_comment->fetch(PDO::FETCH_ASSOC);
-?>
-<section class="edit-comment">
-   <h1 class="heading">Edit comment</h1>
-   <form action="" method="post">
-      <input type="hidden" name="update_id" value="<?= $fetch_edit_comment['id']; ?>">
-      <textarea name="update_box" class="box" maxlength="1000" required placeholder="Please enter your comment" cols="30" rows="10"><?= $fetch_edit_comment['comment']; ?></textarea>
-      <div class="flex">
-         <a href="comments.php" class="inline-option-btn">Cancel edit</a>
-         <input type="submit" value="update now" name="update_now" class="inline-btn">
-      </div>
-   </form>
-</section>
-<?php
-   }else{
-      $message[] = 'Comment was not found!';
-   }
-}
-?>
+
 
 <section class="comments">
 
@@ -121,7 +96,7 @@ if(isset($_POST['update_now'])){
          ?>
          <form action="" method="post" class="flex-btn">
             <input type="hidden" name="comment_id" value="<?= $fetch_comment['id']; ?>">
-            <button type="submit" name="edit_comment" class="inline-option-btn">edit comment</button>
+           
             <button type="submit" name="delete_comment" class="inline-delete-btn" onclick="return confirm('delete this comment?');">delete comment</button>
          </form>
          <?php

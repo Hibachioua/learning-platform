@@ -952,29 +952,7 @@ section{
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%); 
 }
 
-.edit-comment form{
-  background-color: var(--white);
-  border-radius: .5rem;
-  padding: 2rem;
-}
 
-.edit-comment form .box{
-  width: 100%;
-  border-radius: .5rem;
-  padding: 1.4rem;
-  font-size: 1.8rem;
-  color: var(--black);
-  background-color: var(--light-bg);
-  resize: none;
-  height: 20rem;
-}
-
-.edit-comment form .flex{
-  display: flex;
-  gap: 1.5rem;
-  justify-content: space-between;
-  margin-top: .5rem;
-}
 
 .teachers .search-tutor{
   margin-bottom: 3rem;
