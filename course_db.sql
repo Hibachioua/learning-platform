@@ -51,23 +51,25 @@ CREATE TABLE `playlist` (
 
 
 CREATE TABLE `tutors` (
-  `id` varchar(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `email` varchar(90) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `image` varchar(100) NOT NULL,
+  `id` INT AUTO_INCREMENT NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
+  `password` VARCHAR(50) NOT NULL,
+  `image` VARCHAR(100) NOT NULL,
   PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 
 CREATE TABLE `users` (
-  `id` varchar(20) NOT NULL ,
-  `name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `image` varchar(100) NOT NULL,
+  `id` INT AUTO_INCREMENT NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
+  `password` VARCHAR(50) NOT NULL,
+  `image` VARCHAR(100) NOT NULL,
   PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `admin` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -121,15 +123,5 @@ COMMIT;
 
 
 
-
-
-ALTER TABLE `users`
-MODIFY COLUMN `id` INT AUTO_INCREMENT;
-
-ALTER TABLE `tutors`
-MODIFY COLUMN `id` INT AUTO_INCREMENT;
-
-
-ALTER TABLE course_db.comments MODIFY date TIMESTAMP;
 
 
