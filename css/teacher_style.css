@@ -1177,6 +1177,12 @@ p{
   background-color: var(--light-bg);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
+.comments .show-comments .add-comment{
+
+  border-radius: 0.5rem;
+ 
+
+}
 
 
 @media (max-width: 1200px) {
