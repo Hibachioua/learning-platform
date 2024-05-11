@@ -111,10 +111,7 @@ if(isset($_POST['delete_teacher'])) {
                 <p>Total Videos</p>
                 <a href="contents.php" class="btn">View Content</a>
             </div>
-            <div class="box">
-                <span><?= $total_likes; ?></span>
-                <p>Total Likes</p>
-                <a href="contents.php" class="btn">View Content</a>
+            
             </div>
             <div class="box">
                 <span><?= $total_comments; ?></span>
