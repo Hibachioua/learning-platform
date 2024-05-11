@@ -61,7 +61,10 @@ if(isset($_POST['submit'])){
 <body style="padding-left: 0;">
 
 <?php
+
 if(isset($message)){
+ if(is_array($message)){
+
    foreach($message as $message){
       echo '
       <div class="message form">
@@ -70,6 +73,7 @@ if(isset($message)){
       </div>
       ';
    }
+ }
 }
 ?>
 
