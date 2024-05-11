@@ -27,7 +27,7 @@ $total_bookmarked = $select_bookmark->rowCount();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <title>Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -112,7 +112,7 @@ $total_bookmarked = $select_bookmark->rowCount();
 
     <section class="quick-select">
 
-        <h1 class="heading">quick options</h1>
+        <h1 class="heading">Quick options</h1>
 
         <div class="box-container">
 
@@ -120,11 +120,9 @@ $total_bookmarked = $select_bookmark->rowCount();
          if($user_id != ''){
       ?>
             <div class="box">
-                <h3 class="title">Bookmark and comments</h3>
-                <p>Total comments : <span><?= $total_comments; ?></span></p>
-                <a href="comments.php" class="inline-btn">View comments</a>
+                <h3 class="title">Subscriptions</h3>
                 <p>Saved playlist : <span><?= $total_bookmarked; ?></span></p>
-                <a href="bookmark.php" class="inline-btn">View bookmark</a>
+                <a href="bookmark.php" class="inline-btn">View subscriptions</a>
             </div>
             <?php
          }else{ 
