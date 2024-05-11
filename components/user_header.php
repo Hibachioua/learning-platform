@@ -96,9 +96,9 @@ if(isset($message)){
 
     <!-- Menu de navigation de la barre latérale -->
     <nav class="navbar">
-        <a href="home.php"><i class="fa-solid fa-door-open"></i><span>home</span></a>
-        <a href="courses.php"><i class="fa-solid fa-book"></i><span>courses</span></a>
-        <a href="teachers.php"><i class="fa-solid fa-user-tie"></i><span>teachers</span></a>
+        <a href="home.php"><i class="fa-solid fa-door-open"></i><span>Home</span></a>
+        <a href="courses.php"><i class="fa-solid fa-book"></i><span>Courses</span></a>
+        <a href="teachers.php"><i class="fa-solid fa-user-tie"></i><span>Teachers</span></a>
         <a href="announcements.php"><i class="fa-solid fa-bullhorn"></i><span>Announcements</span></a>
     </nav>
 </div>

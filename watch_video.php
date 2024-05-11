@@ -20,24 +20,7 @@ if(isset($_GET['get_id'])){
    header('location:home.php');
 }
 
-if(isset($_POST['like_content'])){
 
-   if($user_id != ''){
-
-      $content_id = $_POST['content_id'];
-      $content_id = filter_var($content_id, FILTER_SANITIZE_STRING);
-
-      $select_content = $conn->prepare("SELECT * FROM `content` WHERE id = ? LIMIT 1");
-      $select_content->execute([$content_id]);
-      $fetch_content = $select_content->fetch(PDO::FETCH_ASSOC);
-
-      $tutor_id = $fetch_content['tutor_id'];
-
-   }else{
-      $message[] = 'Please login first!';
-   }
-
-}
 
 if(isset($_POST['add_comment']) && isset($_POST['comment_box'])){
 
@@ -52,13 +35,12 @@ if(isset($_POST['add_comment']) && isset($_POST['comment_box'])){
       $select_content = $conn->prepare("SELECT * FROM `content` WHERE id = ? LIMIT 1");
       $select_content->execute([$content_id]);
       $fetch_content = $select_content->fetch(PDO::FETCH_ASSOC);
-
-      $tutor_id = $fetch_content['tutor_id'];
+      $tutor_id  = $fetch_content['tutor_id'];
 
       if($select_content->rowCount() > 0){
 
          $insert_comment = $conn->prepare("INSERT INTO `comments`(id, content_id, user_id, tutor_id, comment, parent_id) VALUES(?,?,?,?,?,?)");
-         $insert_comment->execute([$id, $content_id, $user_id, null, $comment_box, null]);
+         $insert_comment->execute([$id, $content_id, $user_id, $tutor_id, $comment_box, null]);
          $message[] = 'New comment added!';
 
       }else{
@@ -126,15 +108,12 @@ if(isset($_POST['edit_comment'])){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
-      
-
     .watch-video {
         display: flex;
         flex-direction: column-reverse;
         justify-content: center;
         align-items: center;
         height: 80vh;
-        
     }
 
     .watch-video p {
@@ -145,7 +124,6 @@ if(isset($_POST['edit_comment'])){
         margin: 10px 0 10px 0;
         padding: 10px;
         text-align: center;
-
     }
 
     .watch-video span {
@@ -204,8 +182,7 @@ if(isset($_POST['edit_comment'])){
                echo '<p>Unsupported file type.</p>';
             }
    ?>
-       
-        <?php
+    <?php
          }
       } else {
          echo '<p class="empty">No videos added yet!</p>';
@@ -236,7 +213,7 @@ if(isset($_POST['edit_comment'])){
                $select_commentor->execute([$fetch_comment['user_id']]);
                $fetch_commentor = $select_commentor->fetch(PDO::FETCH_ASSOC);
       ?>
-            <div class="box" style="<?php if($fetch_comment['user_id'] == $user_id){echo 'order:-1;';} ?>">
+            <div class="comment" style="<?php if($fetch_comment['user_id'] == $user_id){echo 'order:-1;';} ?>">
                 <div class="user">
                     <img src="uploaded_files/<?= $fetch_commentor['image']; ?>" alt="">
                     <div>
@@ -257,7 +234,6 @@ if(isset($_POST['edit_comment'])){
                 <?php
             }
          ?>
-             
                 <!-- Display existing replies for each comment -->
                 <div class="replies">
                     <?php
@@ -268,9 +244,17 @@ if(isset($_POST['edit_comment'])){
                   while($fetch_reply = $select_replies->fetch(PDO::FETCH_ASSOC)){
                      // Display each reply
             ?>
-                    <div class="reply">
-                        <span><?= $fetch_reply['date']; ?></span>
-                        <p><?= $fetch_reply['comment']; ?></p>
+                    <div class="comment">
+                        <div class="user">
+                            <!-- Assuming you have user data for the replier -->
+                            <img src="path_to_user_image" alt="User Image">
+                            <div>
+                                <h3>User Name</h3>
+                                <span><?= $fetch_reply['date']; ?></span>
+                            </div>
+                        </div>
+                        <p class="text"><?= $fetch_reply['comment']; ?></p>
+                        <!-- You can add edit/delete buttons for replies if needed -->
                     </div>
                     <?php
                   }
@@ -279,7 +263,7 @@ if(isset($_POST['edit_comment'])){
                }
             ?>
                 </div>
-           
+            </div>
             <?php
             }
          }else{
