@@ -18,7 +18,7 @@ CREATE TABLE `comments` (
   `user_id` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;
   `tutor_id` varchar(20) NOT NULL,
   `comment` varchar(1000) NOT NULL,
-  `date` date NOT NULL DEFAULT current_timestamp()
+  `date` TIMESTAMP NOT NULL DEFAULT current_timestamp(),
   `parent_id` varchar(250);
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
