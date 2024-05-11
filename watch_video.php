@@ -24,8 +24,12 @@ if(isset($_POST['like_content'])){
 
    if($user_id != ''){
 
+            // Récupère l'identifiant du contenu à liker depuis le formulaire
+
       $content_id = $_POST['content_id'];
       $content_id = filter_var($content_id, FILTER_SANITIZE_STRING);
+
+            // Sélectionne les détails du contenu à liker
 
       $select_content = $conn->prepare("SELECT * FROM `content` WHERE id = ? LIMIT 1");
       $select_content->execute([$content_id]);
@@ -34,6 +38,9 @@ if(isset($_POST['like_content'])){
       $tutor_id = $fetch_content['tutor_id'];
 
    }else{
+      
+            // Message d'erreur si l'utilisateur n'est pas connecté
+
       $message[] = 'Please login first!';
    }
 
@@ -42,12 +49,16 @@ if(isset($_POST['like_content'])){
 if(isset($_POST['add_comment']) && isset($_POST['comment_box'])){
 
    if($user_id != ''){
+      // Génère un identifiant unique pour le commentaire
 
       $id = unique_id();
+            // Récupère le contenu du champ de commentaire depuis la requête POST et le nettoie
+
       $comment_box = $_POST['comment_box'];
       $comment_box = filter_var($comment_box, FILTER_SANITIZE_STRING);
       $content_id = $_POST['content_id'];
       $content_id = filter_var($content_id, FILTER_SANITIZE_STRING);
+      // Sélectionne les détails du contenu associé au commentaire
 
       $select_content = $conn->prepare("SELECT * FROM `content` WHERE id = ? LIMIT 1");
       $select_content->execute([$content_id]);
@@ -126,15 +137,13 @@ if(isset($_POST['edit_comment'])){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
-      
-
     .watch-video {
         display: flex;
         flex-direction: column-reverse;
         justify-content: center;
         align-items: center;
         height: 80vh;
-        
+
     }
 
     .watch-video p {
@@ -204,7 +213,7 @@ if(isset($_POST['edit_comment'])){
                echo '<p>Unsupported file type.</p>';
             }
    ?>
-       
+
         <?php
          }
       } else {
@@ -257,7 +266,7 @@ if(isset($_POST['edit_comment'])){
                 <?php
             }
          ?>
-             
+
                 <!-- Display existing replies for each comment -->
                 <div class="replies">
                     <?php
@@ -279,14 +288,14 @@ if(isset($_POST['edit_comment'])){
                }
             ?>
                 </div>
-           
-            <?php
+
+                <?php
             }
          }else{
             echo '<p class="empty">No comments added yet!</p>';
          }
       ?>
-        </div>
+            </div>
     </section>
     <!-- Comments section ends -->
 

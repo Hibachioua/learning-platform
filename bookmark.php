@@ -1,11 +1,16 @@
 <?php
 
+// Inclure le fichier de connexion à la base de données
 include 'components/connect.php';
 
+// Vérifier si le cookie 'user_id' est défini
 if(isset($_COOKIE['user_id'])){
+   // Si oui, récupérer la valeur du cookie 'user_id'
    $user_id = $_COOKIE['user_id'];
 }else{
+   // Sinon, définir $user_id comme une chaîne vide
    $user_id = '';
+   // Rediriger vers la page d'accueil
    header('location:home.php');
 }
 
@@ -13,30 +18,30 @@ if(isset($_COOKIE['user_id'])){
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>bookmarks</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bookmarks</title>
 
-   <!-- font awesome cdn link  -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
-   <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
+
 <body>
 
-<?php include 'components/user_header.php'; ?>
+    <?php include 'components/user_header.php'; ?>
 
-<section class="courses">
+    <section class="courses">
 
-   <h1 class="heading">bookmarked playlists</h1>
+        <h1 class="heading">bookmarked playlists</h1>
 
-   <div class="box-container">
+        <div class="box-container">
 
-      <?php
+            <?php
          $select_bookmark = $conn->prepare("SELECT * FROM `bookmark` WHERE user_id = ?");
          $select_bookmark->execute([$user_id]);
          if($select_bookmark->rowCount() > 0){
@@ -52,19 +57,19 @@ if(isset($_COOKIE['user_id'])){
                   $select_tutor->execute([$fetch_course['tutor_id']]);
                   $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
       ?>
-      <div class="box">
-         <div class="tutor">
-            <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
-            <div>
-               <h3><?= $fetch_tutor['name']; ?></h3>
-               <span><?= $fetch_course['date']; ?></span>
+            <div class="box">
+                <div class="tutor">
+                    <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
+                    <div>
+                        <h3><?= $fetch_tutor['name']; ?></h3>
+                        <span><?= $fetch_course['date']; ?></span>
+                    </div>
+                </div>
+                <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
+                <h3 class="title"><?= $fetch_course['title']; ?></h3>
+                <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
             </div>
-         </div>
-         <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
-         <h3 class="title"><?= $fetch_course['title']; ?></h3>
-         <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
-      </div>
-      <?php
+            <?php
                }
             }else{
                echo '<p class="empty">no courses found!</p>';
@@ -75,11 +80,9 @@ if(isset($_COOKIE['user_id'])){
       }
       ?>
 
-   </div>
+        </div>
 
-</section>
-
-
+    </section>
 
 
 
@@ -89,7 +92,10 @@ if(isset($_COOKIE['user_id'])){
 
 
 
-<script src="js/script.js"></script>
-   
+
+
+    <script src="js/script.js"></script>
+
 </body>
+
 </html>

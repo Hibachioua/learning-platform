@@ -10,23 +10,30 @@ if(isset($_COOKIE['user_id'])){
 
 if(isset($_POST['submit'])){
 
-   $email = $_POST['email'];
-   $email = filter_var($email, FILTER_SANITIZE_STRING);
-   $pass = sha1($_POST['pass']);
-   $pass = filter_var($pass, FILTER_SANITIZE_STRING);
-
-   $select_user = $conn->prepare("SELECT * FROM `users` WHERE email = ? AND password = ? LIMIT 1");
-   $select_user->execute([$email, $pass]);
-   $row = $select_user->fetch(PDO::FETCH_ASSOC);
-   
-   if($select_user->rowCount() > 0){
-     setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
-     header('location:home.php');
-   }else{
-      $message[] = 'incorrect email or password!';
-   }
-
-}
+    // Récupérer et filtrer l'email et le mot de passe soumis par le formulaire
+    $email = $_POST['email'];
+    $email = filter_var($email, FILTER_SANITIZE_STRING);
+    $pass = sha1($_POST['pass']);
+    $pass = filter_var($pass, FILTER_SANITIZE_STRING);
+ 
+    // Sélectionner l'utilisateur correspondant à l'email et au mot de passe fournis
+    $select_user = $conn->prepare("SELECT * FROM `users` WHERE email = ? AND password = ? LIMIT 1");
+    $select_user->execute([$email, $pass]);
+    $row = $select_user->fetch(PDO::FETCH_ASSOC);
+    
+    // Vérifier si l'utilisateur existe dans la base de données
+    if($select_user->rowCount() > 0){
+      // Créer un cookie contenant l'ID de l'utilisateur pour une durée d'un mois
+      setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
+      // Rediriger l'utilisateur vers la page d'accueil
+      header('location:home.php');
+    }else{
+       // Afficher un message d'erreur si l'email ou le mot de passe est incorrect
+       $message[] = 'incorrect email or password!';
+    }
+ 
+ }
+ 
 
 ?>
 
@@ -40,7 +47,9 @@ if(isset($_POST['submit'])){
     <title>home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
 
     <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">

@@ -2,21 +2,29 @@
 
 include 'components/connect.php';
 
+// Vérifie si un identifiant d'utilisateur est présent dans les cookies
 if(isset($_COOKIE['user_id'])){
+   // Récupère l'identifiant d'utilisateur à partir des cookies
    $user_id = $_COOKIE['user_id'];
 }else{
+   // Initialise l'identifiant d'utilisateur à une chaîne vide si aucun n'est trouvé dans les cookies
    $user_id = '';
 }
 
+// Vérifie si l'identifiant de cours est présent dans l'URL
 if(isset($_GET['course_id'])){
+    // Récupère l'identifiant du cours à partir de l'URL
     $course_id = $_GET['course_id'];
 
+    // Sélectionne les détails du cours en fonction de son identifiant
     $select_course = $conn->prepare("SELECT * FROM `content` WHERE id = ?");
     $select_course->execute([$course_id]);
+    // Récupère les détails du cours
     $fetch_course = $select_course->fetch(PDO::FETCH_ASSOC);
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
