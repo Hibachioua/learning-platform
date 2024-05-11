@@ -23,7 +23,7 @@ if(isset($_POST['delete_account'])) {
     $insert_request = $conn->prepare("INSERT INTO deletion_requests (user_id) VALUES (?)");
     $insert_request->execute([$user_id]);
     
-    $message = "Your deletion request has been sent to the administrator for review ";
+    $message = "Your deletion request has been sent to the administrator for review ❤️";
 }
 
 // Vérifier si la demande de suppression a été acceptée

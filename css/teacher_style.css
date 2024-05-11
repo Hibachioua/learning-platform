@@ -199,10 +199,6 @@ section {
   gap: 1rem;
 }
 
-p{
-  color: #888;
-  font-size: 17px;
-}
 .message {
   position: sticky;
   top: 0;
@@ -229,7 +225,7 @@ p{
 
 .message i {
   font-size: 2.5rem;
-  color: #888;
+  color: var(--red);
   cursor: pointer;
   transition: 0.2s linear;
 }
