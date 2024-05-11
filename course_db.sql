@@ -35,11 +35,6 @@ CREATE TABLE `content` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-CREATE TABLE `likes` (
-  `user_id` varchar(20) NOT NULL,
-  `tutor_id` varchar(20) NOT NULL,
-  `content_id` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `playlist` (
   `id` varchar(20) NOT NULL,
