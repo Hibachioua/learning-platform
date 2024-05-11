@@ -70,7 +70,7 @@ if(isset($_POST['delete_teacher'])) {
             <button type="submit" name="delete_teacher" class="teacher-btn">Delete My account</button>
          </form>
          <?php if(!empty($message)): ?>
-        <p><?php echo $message; ?></p>
+        <p ><?php echo $message; ?></p>
         <?php endif; ?>
       </div>
       <div class="flex">
