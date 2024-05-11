@@ -122,13 +122,13 @@ $total_bookmarked = $select_bookmark->rowCount();
          if($user_id != ''){
       ?>
             <div class="box">
-                <h3 class="title">likes and comments</h3>
-                <p>total likes : <span><?= $total_likes; ?></span></p>
-                <a href="likes.php" class="inline-btn">view likes</a>
-                <p>total comments : <span><?= $total_comments; ?></span></p>
-                <a href="comments.php" class="inline-btn">view comments</a>
-                <p>saved playlist : <span><?= $total_bookmarked; ?></span></p>
-                <a href="bookmark.php" class="inline-btn">view bookmark</a>
+                <h3 class="title">Likes and comments</h3>
+                <p>Total likes : <span><?= $total_likes; ?></span></p>
+                <a href="likes.php" class="inline-btn">View likes</a>
+                <p>Total comments : <span><?= $total_comments; ?></span></p>
+                <a href="comments.php" class="inline-btn">View comments</a>
+                <p>Saved playlist : <span><?= $total_bookmarked; ?></span></p>
+                <a href="bookmark.php" class="inline-btn">View bookmark</a>
             </div>
             <?php
          }else{ 
@@ -141,7 +141,7 @@ $total_bookmarked = $select_bookmark->rowCount();
             <div class="box">
                 <h3 class="title">Modules</h3>
                 <div class="flex">
-                    <a ><i class="fas fa-code"></i><span>web development</span></a>
+                    <a ><i class="fas fa-code"></i><span>Web development</span></a>
                     <a ><i class="fa-solid fa-gears"></i><span>Digital Electronics</span></a>
                     <a ><i class="fa-solid fa-c"></i><span>Advanced Programming</span></a>
                     <a><i class="fa-brands fa-contao"></i><span>Compilation & Language </span></a>
@@ -161,7 +161,7 @@ $total_bookmarked = $select_bookmark->rowCount();
 
     <section class="courses">
 
-        <h1 class="heading">latest courses</h1>
+        <h1 class="heading">Latest courses</h1>
 
         <div class="box-container">
 
@@ -186,19 +186,19 @@ $total_bookmarked = $select_bookmark->rowCount();
                 </div>
                 <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
                 <h3 class="title"><?= $fetch_course['title']; ?></h3>
-                <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
+                <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">View playlist</a>
             </div>
             <?php
          }
       }else{
-         echo '<p class="empty">no courses added yet!</p>';
+         echo '<p class="empty">No courses added yet!</p>';
       }
       ?>
 
         </div>
 
         <div class="more-btn">
-            <a href="courses.php" class="inline-option-btn">view more</a>
+            <a href="courses.php" class="inline-option-btn">View more</a>
         </div>
 
     </section>

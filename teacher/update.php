@@ -20,8 +20,6 @@ if(isset($_POST['submit'])){
 
    $name = $_POST['name'];
    $name = filter_var($name, FILTER_SANITIZE_STRING);
-   $profession = $_POST['profession'];
-   $profession = filter_var($profession, FILTER_SANITIZE_STRING);
    $email = $_POST['email'];
    $email = filter_var($email, FILTER_SANITIZE_STRING);
 
@@ -29,12 +27,6 @@ if(isset($_POST['submit'])){
       $update_name = $conn->prepare("UPDATE `tutors` SET name = ? WHERE id = ?");
       $update_name->execute([$name, $tutor_id]);
       $message[] = 'username updated successfully!';
-   }
-
-   if(!empty($profession)){
-      $update_profession = $conn->prepare("UPDATE `tutors` SET profession = ? WHERE id = ?");
-      $update_profession->execute([$profession, $tutor_id]);
-      $message[] = 'profession updated successfully!';
    }
 
    if(!empty($email)){
@@ -126,34 +118,29 @@ if(isset($_POST['submit'])){
     <section class="form-container" style="min-height: calc(100vh - 19rem);">
 
         <form class="register" action="" method="post" enctype="multipart/form-data">
-            <h3>update profile</h3>
+            <h3>Update profile</h3>
             <div class="flex">
                 <div class="col">
-                    <p>your name </p>
+                    <p>Your name </p>
                     <input type="text" name="name" placeholder="<?= $fetch_profile['name']; ?>" maxlength="50"
                         class="box">
-                    <p>your profession </p>
-                    <select name="profession" class="box">
-                        <option value="" selected><?= $fetch_profile['profession']; ?></option>
-                        <option value="teacher">teacher</option>
-                    </select>
-                    <p>your email </p>
+                    <p>Your email </p>
                     <input type="email" name="email" placeholder="<?= $fetch_profile['email']; ?>" maxlength="20"
                         class="box">
                 </div>
                 <div class="col">
-                    <p>old password :</p>
-                    <input type="password" name="old_pass" placeholder="enter your old password here" maxlength="20"
+                    <p>Old password :</p>
+                    <input type="password" name="old_pass" placeholder="Enter your old password here" maxlength="20"
                         class="box">
-                    <p>new password :</p>
-                    <input type="password" name="new_pass" placeholder="enter your new password here" maxlength="20"
+                    <p>New password :</p>
+                    <input type="password" name="new_pass" placeholder="Enter your new password here" maxlength="20"
                         class="box">
-                    <p>confirm password :</p>
-                    <input type="password" name="cpass" placeholder="confirm your new password here" maxlength="20"
+                    <p>Confirm password :</p>
+                    <input type="password" name="cpass" placeholder="Confirm your new password here" maxlength="20"
                         class="box">
                 </div>
             </div>
-            <p>update picture :</p>
+            <p>Update picture :</p>
             <input type="file" name="image" accept="image/*" class="box">
             <input type="submit" name="submit" value="update now" class="btn">
         </form>

@@ -34,14 +34,14 @@
    
 <section class="tutor-profile" style="min-height: calc(100vh - 19rem);"> 
 
-   <h1 class="heading">profile details</h1>
+   <h1 class="heading">Profile details</h1>
 
    <div class="details">
       <div class="tutor">
          <img src="../uploaded_files/<?= $fetch_profile['image']; ?>" alt="">
          <h3><?= $fetch_profile['name']; ?></h3>
-         <span><?= $fetch_profile['profession']; ?></span>
-         <a href="update.php" class="inline-btn">update profile</a>
+         <span>Teacher</span>
+         <a href="update.php" class="inline-btn">Update profile</a>
       </div>
       
    </div>

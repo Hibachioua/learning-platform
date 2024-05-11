@@ -28,15 +28,15 @@ if(isset($_POST['save_list'])){
       if($select_list->rowCount() > 0){
          $remove_bookmark = $conn->prepare("DELETE FROM `bookmark` WHERE user_id = ? AND playlist_id = ?");
          $remove_bookmark->execute([$user_id, $list_id]);
-         $message[] = 'playlist removed!';
+         $message[] = 'Playlist removed!';
       }else{
          $insert_bookmark = $conn->prepare("INSERT INTO `bookmark`(user_id, playlist_id) VALUES(?,?)");
          $insert_bookmark->execute([$user_id, $list_id]);
-         $message[] = 'playlist saved!';
+         $message[] = 'Playlist saved!';
       }
 
    }else{
-      $message[] = 'please login first!';
+      $message[] = 'Please login first!';
    }
 
 }
@@ -99,18 +99,17 @@ if(isset($_POST['save_list'])){
                     <?php
                if($select_bookmark->rowCount() > 0){
             ?>
-                    <button type="submit" name="save_list"><i class="fas fa-bookmark"></i><span>saved</span></button>
+                    <button type="submit" name="save_list"><i class="fas fa-bookmark"></i><span>Saved</span></button>
                     <?php
                }else{
             ?>
-                    <button type="submit" name="save_list"><i class="far fa-bookmark"></i><span>save
-                            playlist</span></button>
+                    <button type="submit" name="save_list"><i class="far fa-bookmark"></i><span>Save playlist</span></button>
                     <?php
                }
             ?>
                 </form>
                 <div class="thumb">
-                    <span><?= $total_videos; ?> videos</span>
+                    <span><?= $total_videos; ?> Courses</span>
                     <img src="uploaded_files/<?= $fetch_playlist['thumb']; ?>" alt="">
                 </div>
             </div>
@@ -120,7 +119,7 @@ if(isset($_POST['save_list'])){
                     <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
                     <div>
                         <h3><?= $fetch_tutor['name']; ?></h3>
-                        <span><?= $fetch_tutor['profession']; ?></span>
+                        <span>Teacher</span>
                     </div>
                 </div>
                 <div class="details">
@@ -132,7 +131,7 @@ if(isset($_POST['save_list'])){
 
             <?php
          }else{
-            echo '<p class="empty">this playlist was not found!</p>';
+            echo '<p class="empty">This playlist was not found!</p>';
          }  
       ?>
 
@@ -146,7 +145,7 @@ if(isset($_POST['save_list'])){
 
     <section class="videos-container">
 
-        <h1 class="heading">playlist videos</h1>
+        <h1 class="heading">Playlist courses</h1>
 
         <div class="box-container">
 

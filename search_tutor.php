@@ -37,7 +37,7 @@ if(isset($_COOKIE['user_id'])){
    <h1 class="heading">Teachers</h1>
 
    <form action="" method="post" class="search-tutor">
-      <input type="text" name="search_tutor" maxlength="100" placeholder="search tutor..." required>
+      <input type="text" name="search_tutor" maxlength="100" placeholder="Search tutor..." required>
       <button type="submit" name="search_tutor_btn" class="fas fa-search"></button>
    </form>
 
@@ -74,25 +74,25 @@ if(isset($_COOKIE['user_id'])){
             <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
             <div>
                <h3><?= $fetch_tutor['name']; ?></h3>
-               <span><?= $fetch_tutor['profession']; ?></span>
+               <span>Teacher</span>
             </div>
          </div>
-         <p>playlists : <span><?= $total_playlists; ?></span></p>
-         <p>total videos : <span><?= $total_contents ?></span></p>
-         <p>total likes : <span><?= $total_likes ?></span></p>
-         <p>total comments : <span><?= $total_comments ?></span></p>
+         <p>Playlists : <span><?= $total_playlists; ?></span></p>
+         <p>Total courses : <span><?= $total_contents ?></span></p>
+         <p>Total likes : <span><?= $total_likes ?></span></p>
+         <p>Total comments : <span><?= $total_comments ?></span></p>
          <form action="tutor_profile.php" method="post">
             <input type="hidden" name="tutor_email" value="<?= $fetch_tutor['email']; ?>">
-            <input type="submit" value="view profile" name="tutor_fetch" class="inline-btn">
+            <input type="submit" value="View profile" name="tutor_fetch" class="inline-btn">
          </form>
       </div>
       <?php
                }
             }else{
-               echo '<p class="empty">no results found!</p>';
+               echo '<p class="empty">No results found!</p>';
             }
          }else{
-            echo '<p class="empty">please search something!</p>';
+            echo '<p class="empty">Please search something!</p>';
          }
       ?>
 

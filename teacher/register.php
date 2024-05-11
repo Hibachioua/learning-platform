@@ -26,15 +26,15 @@ if(isset($_POST['submit'])){
    $select_tutor->execute([$email]);
    
    if($select_tutor->rowCount() > 0){
-      $message[] = 'email already taken!';
+      $message[] = 'Email already taken!';
    }else{
       if($pass != $cpass){
-         $message[] = 'confirm passowrd not matched!';
+         $message[] = 'Confirm passowrd not matched!';
       }else{
          $insert_tutor = $conn->prepare("INSERT INTO `tutors`(id, name, email, password, image) VALUES(?,?,?,?,?)");
          $insert_tutor->execute([$id, $name, $email, $cpass, $rename]);
          move_uploaded_file($image_tmp_name, $image_folder);
-         $message[] = 'new tutor registered! please login now';
+         $message[] = 'New tutor registered! please login now';
       }
    }
 
@@ -101,7 +101,7 @@ if(isset($message)){
                     <input type="file" name="image" accept="image/*" required class="box">
                 </div>
             </div>
-            <p class="link">do you have an account? <a href="login.php">Login now</a></p>
+            <p class="link">Do you have an account? <a href="login.php">Login now</a></p>
             <input type="submit" name="submit" value="register now" class="btn">
         </form>
 

@@ -39,20 +39,20 @@ if(isset($_POST['like_content'])){
       if($select_likes->rowCount() > 0){
          $remove_likes = $conn->prepare("DELETE FROM `likes` WHERE user_id = ? AND content_id = ?");
          $remove_likes->execute([$user_id, $content_id]);
-         $message[] = 'removed from likes!';
+         $message[] = 'Rmoved from likes!';
       }else{
          $insert_likes = $conn->prepare("INSERT INTO `likes`(user_id, tutor_id, content_id) VALUES(?,?,?)");
          $insert_likes->execute([$user_id, $tutor_id, $content_id]);
-         $message[] = 'added to likes!';
+         $message[] = 'Added to likes!';
       }
 
    }else{
-      $message[] = 'please login first!';
+      $message[] = 'Please login first!';
    }
 
 }
 
-if(isset($_POST['add_comment'])){
+if(isset($_POST['add_comment']) && isset($_POST['comment_box'])){
 
    if($user_id != ''){
 
@@ -70,16 +70,17 @@ if(isset($_POST['add_comment'])){
 
       if($select_content->rowCount() > 0){
 
-         $insert_comment = $conn->prepare("INSERT INTO `comments`(id, content_id, user_id, tutor_id, comment) VALUES(?,?,?,?,?)");
-         $insert_comment->execute([$id, $content_id, $user_id, $tutor_id, $comment_box]);
-         $message[] = 'new comment added!';
+         $insert_comment = $conn->prepare("INSERT INTO `comments`(id, content_id, user_id, tutor_id, comment, parent_id) VALUES(?,?,?,?,?,?)");
+         $insert_comment->execute([$id, $content_id, $user_id, $tutor_id, $comment_box, null]);
+         $message[] = 'New comment added!';
 
       }else{
-         $message[] = 'something went wrong!';
+         $message[] = 'Something went wrong!';
       }
-
+        header('Location: ' . $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING']);
+        exit();
    }else{
-      $message[] = 'please login first!';
+      $message[] = 'Please login first!';
    }
 
 }
@@ -95,9 +96,9 @@ if(isset($_POST['delete_comment'])){
    if($verify_comment->rowCount() > 0){
       $delete_comment = $conn->prepare("DELETE FROM `comments` WHERE id = ?");
       $delete_comment->execute([$delete_id]);
-      $message[] = 'comment deleted successfully!';
+      $message[] = 'Comment deleted successfully!';
    }else{
-      $message[] = 'comment not found or you are not authorized to delete it!';
+      $message[] = 'Comment not found or you are not authorized to delete it!';
    }
 
 }
@@ -129,7 +130,7 @@ if(isset($_POST['edit_comment'])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watch Video</title>
+    <title>See course</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -249,7 +250,7 @@ if(isset($_POST['edit_comment'])){
 
         <div class="show-comments">
             <?php
-         $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE content_id = ?");
+         $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE content_id = ? and user_id is not null");
          $select_comments->execute([$get_id]);
          if($select_comments->rowCount() > 0){
             while($fetch_comment = $select_comments->fetch(PDO::FETCH_ASSOC)){   
@@ -278,18 +279,12 @@ if(isset($_POST['edit_comment'])){
                 <?php
             }
          ?>
-                <!-- Add a reply form for each comment -->
-                <form action="" method="post" class="add-reply">
-                    <input type="hidden" name="comment_id" value="<?= $fetch_comment['id']; ?>">
-                    <textarea name="reply_box" required placeholder="Write your reply..." maxlength="100000" cols="305"
-                        rows="58"></textarea>
-                    <input type="submit" value="Add Reply" name="add_reply" class="inline-btn">
-                </form>
+             
                 <!-- Display existing replies for each comment -->
                 <div class="replies">
                     <?php
                // Retrieve and display replies for the current comment
-               $select_replies = $conn->prepare("SELECT * FROM `comment_replies` WHERE comment_id = ?");
+               $select_replies = $conn->prepare("SELECT * FROM `comments` WHERE parent_id = ? order by date desc");
                $select_replies->execute([$fetch_comment['id']]);
                if($select_replies->rowCount() > 0){
                   while($fetch_reply = $select_replies->fetch(PDO::FETCH_ASSOC)){
@@ -297,7 +292,7 @@ if(isset($_POST['edit_comment'])){
             ?>
                     <div class="reply">
                         <span><?= $fetch_reply['date']; ?></span>
-                        <p><?= $fetch_reply['reply_content']; ?></p>
+                        <p><?= $fetch_reply['comment']; ?></p>
                     </div>
                     <?php
                   }

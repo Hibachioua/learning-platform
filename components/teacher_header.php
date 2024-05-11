@@ -1,9 +1,9 @@
 <?php
 if(isset($message)){
-   foreach($message as $message){
+   foreach($message as $msg){
       echo '
       <div class="message">
-         <span>'.$message.'</span>
+         <span>'.$msg.'</span>
          <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
       </div>
       ';
@@ -38,7 +38,7 @@ if(isset($message)){
          ?>
          <img src="../uploaded_files/<?= $fetch_profile['image']; ?>" alt="">
          <h3><?= $fetch_profile['name']; ?></h3>
-         <span><?= $fetch_profile['profession']; ?></span>
+         <span>Teacher</span>
          <a href="profile.php" class="btn">view profile</a>
          
          <a href="../components/teacher_logout.php" onclick="return confirm('logout from this website?');" class="delete-btn">logout</a>
@@ -75,7 +75,7 @@ if(isset($message)){
          ?>
          <img src="../uploaded_files/<?= $fetch_profile['image']; ?>" alt="">
          <h3><?= $fetch_profile['name']; ?></h3>
-         <span><?= isset($fetch_profile['profession']) ? $fetch_profile['profession'] : 'Teacher'; ?></span>
+         <span>Teacher</span>
          <a href="profile.php" class="btn">view profile</a>
          <?php
             }else{

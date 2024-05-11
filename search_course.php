@@ -33,7 +33,7 @@ if(isset($_COOKIE['user_id'])){
 
 <section class="courses">
 
-   <h1 class="heading">search results</h1>
+   <h1 class="heading">Search results</h1>
 
    <div class="box-container">
 
@@ -65,10 +65,10 @@ if(isset($_COOKIE['user_id'])){
       <?php
          }
       }else{
-         echo '<p class="empty">no courses found!</p>';
+         echo '<p class="empty">No courses found!</p>';
       }
       }else{
-         echo '<p class="empty">please search something!</p>';
+         echo '<p class="empty">Please search something!</p>';
       }
       ?>
 

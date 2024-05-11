@@ -73,7 +73,7 @@ if(isset($_POST['tutor_fetch'])){
       <div class="tutor">
          <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
          <h3><?= $fetch_tutor['name']; ?></h3>
-         <span><?= $fetch_tutor['profession']; ?></span>
+         <span>Teacher</span>
       </div>
       <div class="flex">
          <p>total playlists : <span><?= $total_playlists; ?></span></p>

@@ -85,7 +85,7 @@ if(isset($_POST['delete_playlist'])){
    
 <section class="contents">
 
-   <h1 class="heading">contents</h1>
+   <h1 class="heading">Contents</h1>
 
    <div class="box-container">
 
@@ -107,7 +107,7 @@ if(isset($_POST['delete_playlist'])){
          <h3 class="title"><?= $fecth_videos['title']; ?></h3>
          <form action="" method="post" class="flex-btn">
             <input type="hidden" name="video_id" value="<?= $video_id; ?>">
-            <a href="update_content.php?get_id=<?= $video_id; ?>" class="option-btn">update</a>
+            <a href="update_content.php?get_id=<?= $video_id; ?>" class="option-btn">Update</a>
             <input type="submit" value="delete" class="delete-btn" onclick="return confirm('delete this video?');" name="delete_video">
          </form>
          <a href="view_content.php?get_id=<?= $video_id; ?>" class="btn">view content</a>
@@ -115,10 +115,10 @@ if(isset($_POST['delete_playlist'])){
    <?php
          }
       }else{
-         echo '<p class="empty">no contents founds!</p>';
+         echo '<p class="empty">No contents founds!</p>';
       }
    }else{
-      echo '<p class="empty">please search something!</p>';
+      echo '<p class="empty">Please search something!</p>';
    }
    ?>
 
@@ -165,9 +165,9 @@ if(isset($_POST['delete_playlist'])){
       <?php
          } 
       }else{
-         echo '<p class="empty">no playlists found!</p>';
+         echo '<p class="empty">No playlists found!</p>';
       }}else{
-         echo '<p class="empty">please search something!</p>';
+         echo '<p class="empty">Please search something!</p>';
       }
       ?>
 

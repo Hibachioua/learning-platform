@@ -133,4 +133,13 @@ ALTER TABLE deletion_tutors
 ADD COLUMN admin_id INT;
 
 
+DROP TABLE course_db.comment_replies;
 
+ALTER TABLE course_db.comments
+ADD COLUMN parent_id varchar(250);
+
+
+
+ALTER TABLE course_db.comments MODIFY date TIMESTAMP;
+
+ALTER TABLE `comments` CHANGE `user_id` `user_id` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;

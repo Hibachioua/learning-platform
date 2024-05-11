@@ -1265,7 +1265,7 @@ section{
   flex: 1 1 25rem;
 }
 
-.liked-videos .box-container{
+.liked-courses .box-container{
   display: grid;
   grid-template-columns: repeat(auto-fit, 35rem);
   gap: 1.5rem;
@@ -1274,39 +1274,39 @@ section{
   text-overflow: hidden;
 }
 
-.liked-videos .box-container .box{
+.liked-courses .box-container .box{
   background-color: var(--white);
   border-radius: .5rem;
   padding: 2rem;
   overflow-x: hidden;
 }
 
-.liked-videos .box-container .box .tutor{
+.liked-courses .box-container .box .tutor{
   margin-bottom:2rem;
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
-.liked-videos .box-container .box .tutor img{
+.liked-courses .box-container .box .tutor img{
   height: 5rem;
   width: 5rem;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.liked-videos .box-container .box .tutor h3{
+.liked-courses .box-container .box .tutor h3{
   font-size: 1.8rem;
   color: var(--black);
   margin-bottom: .2rem;
 }
 
-.liked-videos .box-container .box .tutor span{
+.liked-courses .box-container .box .tutor span{
   font-size: 1.5rem;
   color: var(--light-color);
 }
 
-.liked-videos .box-container .box .thumb{
+.liked-courses .box-container .box .thumb{
   width: 100%;
   height: 20rem;
   object-fit: cover;
@@ -1314,7 +1314,7 @@ section{
   margin-bottom: 1rem;
 }
 
-.liked-videos .box-container .box .title{
+.liked-courses .box-container .box .title{
   font-size: 2rem;
   color: var(--black);
   padding: .5rem 0;
