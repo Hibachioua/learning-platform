@@ -21,43 +21,16 @@ if(isset($_GET['get_id'])){
 }
 
 
-   if($user_id != ''){
-
-            // Récupère l'identifiant du contenu à liker depuis le formulaire
-
-      $content_id = $_POST['content_id'];
-      $content_id = filter_var($content_id, FILTER_SANITIZE_STRING);
-
-            // Sélectionne les détails du contenu à liker
-
-      $select_content = $conn->prepare("SELECT * FROM `content` WHERE id = ? LIMIT 1");
-      $select_content->execute([$content_id]);
-      $fetch_content = $select_content->fetch(PDO::FETCH_ASSOC);
-
-      $tutor_id = $fetch_content['tutor_id'];
-
-   }else{
-      
-            // Message d'erreur si l'utilisateur n'est pas connecté
-
-      $message[] = 'Please login first!';
-   }
-
-}
 
 if(isset($_POST['add_comment']) && isset($_POST['comment_box'])){
 
    if($user_id != ''){
-      // Génère un identifiant unique pour le commentaire
 
       $id = unique_id();
-            // Récupère le contenu du champ de commentaire depuis la requête POST et le nettoie
-
       $comment_box = $_POST['comment_box'];
       $comment_box = filter_var($comment_box, FILTER_SANITIZE_STRING);
       $content_id = $_POST['content_id'];
       $content_id = filter_var($content_id, FILTER_SANITIZE_STRING);
-      // Sélectionne les détails du contenu associé au commentaire
 
       $select_content = $conn->prepare("SELECT * FROM `content` WHERE id = ? LIMIT 1");
       $select_content->execute([$content_id]);
@@ -209,31 +182,29 @@ if(isset($_POST['edit_comment'])){
                echo '<p>Unsupported file type.</p>';
             }
    ?>
-        <<<<<<< HEAD <?php
-=======
-    <?php
->>>>>>> b7a182b1f8a0196a8606fcd6c9b98429e1fef219
+        <?php
          }
       } else {
          echo '<p class="empty">No videos added yet!</p>';
       }
-   ?> </section>
-            <!-- Watch Video section ends -->
+   ?>
+    </section>
+    <!-- Watch Video section ends -->
 
-            <!-- Comments section starts -->
-            <section class="comments">
-                <h1 class="heading">Add a Comment</h1>
-                <form action="" method="post" class="add-comment">
-                    <input type="hidden" name="content_id" value="<?= $get_id; ?>">
-                    <textarea name="comment_box" required placeholder="Write your comment..." maxlength="1000" cols="30"
-                        rows="10"></textarea>
-                    <input type="submit" value="Add Comment" name="add_comment" class="inline-btn">
-                </form>
+    <!-- Comments section starts -->
+    <section class="comments">
+        <h1 class="heading">Add a Comment</h1>
+        <form action="" method="post" class="add-comment">
+            <input type="hidden" name="content_id" value="<?= $get_id; ?>">
+            <textarea name="comment_box" required placeholder="Write your comment..." maxlength="1000" cols="30"
+                rows="10"></textarea>
+            <input type="submit" value="Add Comment" name="add_comment" class="inline-btn">
+        </form>
 
-                <h1 class="heading">User Comments</h1>
+        <h1 class="heading">User Comments</h1>
 
-                <div class="show-comments">
-                    <?php
+        <div class="show-comments">
+            <?php
          $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE content_id = ? and user_id is not null");
          $select_comments->execute([$get_id]);
          if($select_comments->rowCount() > 0){
@@ -242,31 +213,30 @@ if(isset($_POST['edit_comment'])){
                $select_commentor->execute([$fetch_comment['user_id']]);
                $fetch_commentor = $select_commentor->fetch(PDO::FETCH_ASSOC);
       ?>
-                    <div class="comment" style="<?php if($fetch_comment['user_id'] == $user_id){echo 'order:-1;';} ?>">
-                        <div class="user">
-                            <img src="uploaded_files/<?= $fetch_commentor['image']; ?>" alt="">
-                            <div>
-                                <h3><?= $fetch_commentor['name']; ?></h3>
-                                <span><?= $fetch_comment['date']; ?></span>
-                            </div>
-                        </div>
-                        <p class="text"><?= $fetch_comment['comment']; ?></p>
-                        <?php
+            <div class="comment" style="<?php if($fetch_comment['user_id'] == $user_id){echo 'order:-1;';} ?>">
+                <div class="user">
+                    <img src="uploaded_files/<?= $fetch_commentor['image']; ?>" alt="">
+                    <div>
+                        <h3><?= $fetch_commentor['name']; ?></h3>
+                        <span><?= $fetch_comment['date']; ?></span>
+                    </div>
+                </div>
+                <p class="text"><?= $fetch_comment['comment']; ?></p>
+                <?php
             if($fetch_comment['user_id'] == $user_id){ 
          ?>
-                        <form action="" method="post" class="flex-btn">
-                            <input type="hidden" name="comment_id" value="<?= $fetch_comment['id']; ?>">
-                            <button type="submit" name="edit_comment" class="inline-option-btn">Edit Comment</button>
-                            <button type="submit" name="delete_comment" class="inline-delete-btn"
-                                onclick="return confirm('Delete this comment?');">Delete Comment</button>
-                        </form>
-                        <?php
+                <form action="" method="post" class="flex-btn">
+                    <input type="hidden" name="comment_id" value="<?= $fetch_comment['id']; ?>">
+                    <button type="submit" name="edit_comment" class="inline-option-btn">Edit Comment</button>
+                    <button type="submit" name="delete_comment" class="inline-delete-btn"
+                        onclick="return confirm('Delete this comment?');">Delete Comment</button>
+                </form>
+                <?php
             }
          ?>
-                        <<<<<<< HEAD=======>>>>>>> b7a182b1f8a0196a8606fcd6c9b98429e1fef219
-                            <!-- Display existing replies for each comment -->
-                            <div class="replies">
-                                <?php
+                <!-- Display existing replies for each comment -->
+                <div class="replies">
+                    <?php
                // Retrieve and display replies for the current comment
                $select_replies = $conn->prepare("SELECT * FROM `comments` WHERE parent_id = ? order by date desc");
                $select_replies->execute([$fetch_comment['id']]);
@@ -274,39 +244,37 @@ if(isset($_POST['edit_comment'])){
                   while($fetch_reply = $select_replies->fetch(PDO::FETCH_ASSOC)){
                      // Display each reply
             ?>
-                                <div class="comment">
-                                    <div class="user">
-                                        <!-- Assuming you have user data for the replier -->
-                                        <img src="path_to_user_image" alt="User Image">
-                                        <div>
-                                            <h3>User Name</h3>
-                                            <span><?= $fetch_reply['date']; ?></span>
-                                        </div>
-                                    </div>
-                                    <p class="text"><?= $fetch_reply['comment']; ?></p>
-                                    <!-- You can add edit/delete buttons for replies if needed -->
-                                </div>
-                                <?php
+                    <div class="comment">
+                        <div class="user">
+                            <!-- Assuming you have user data for the replier -->
+                            <img src="path_to_user_image" alt="User Image">
+                            <div>
+                                <h3>User Name</h3>
+                                <span><?= $fetch_reply['date']; ?></span>
+                            </div>
+                        </div>
+                        <p class="text"><?= $fetch_reply['comment']; ?></p>
+                        <!-- You can add edit/delete buttons for replies if needed -->
+                    </div>
+                    <?php
                   }
                } else {
                   echo '<p class="empty">No replies yet!</p>';
                }
             ?>
-                            </div>
-                            <<<<<<< HEAD <?php
-=======
+                </div>
             </div>
             <?php
->>>>>>> b7a182b1f8a0196a8606fcd6c9b98429e1fef219
             }
          }else{
             echo '<p class="empty">No comments added yet!</p>';
          }
-      ?> </div>
-            </section>
-            <!-- Comments section ends -->
+      ?>
+        </div>
+    </section>
+    <!-- Comments section ends -->
 
-            <script src="js/script.js"></script>
+    <script src="js/script.js"></script>
 
 </body>
 
