@@ -1,7 +1,9 @@
 <?php
 
+// Inclusion du fichier de connexion à la base de données
 include '../components/connect.php';
 
+// Vérification de la présence du cookie 'tutor_id'
 if(isset($_COOKIE['tutor_id'])){
    $tutor_id = $_COOKIE['tutor_id'];
 }else{
@@ -9,23 +11,29 @@ if(isset($_COOKIE['tutor_id'])){
    header('location:login.php');
 }
 
+// Traitement de la suppression de la playlist
 if(isset($_POST['delete'])){
    $delete_id = $_POST['playlist_id'];
    $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
 
+   // Vérification de l'existence de la playlist et de son association avec le tuteur
    $verify_playlist = $conn->prepare("SELECT * FROM `playlist` WHERE id = ? AND tutor_id = ? LIMIT 1");
    $verify_playlist->execute([$delete_id, $tutor_id]);
 
+   // Si la playlist existe
    if($verify_playlist->rowCount() > 0){
 
-   
-
+   // Suppression de la miniature de la playlist
    $delete_playlist_thumb = $conn->prepare("SELECT * FROM `playlist` WHERE id = ? LIMIT 1");
    $delete_playlist_thumb->execute([$delete_id]);
    $fetch_thumb = $delete_playlist_thumb->fetch(PDO::FETCH_ASSOC);
    unlink('../uploaded_files/'.$fetch_thumb['thumb']);
+   
+   // Suppression des marque-pages associés à la playlist
    $delete_bookmark = $conn->prepare("DELETE FROM `bookmark` WHERE playlist_id = ?");
    $delete_bookmark->execute([$delete_id]);
+
+   // Suppression de la playlist
    $delete_playlist = $conn->prepare("DELETE FROM `playlist` WHERE id = ?");
    $delete_playlist->execute([$delete_id]);
    $message[] = 'playlist deleted!';
@@ -45,15 +53,16 @@ if(isset($_POST['delete'])){
    <title>Playlists</title>
    
 
-   <!-- font awesome cdn link  -->
+   <!-- Lien CDN pour les icônes Font Awesome -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
+   <!-- Lien vers le fichier CSS personnalisé -->
    <link rel="stylesheet" href="../css/teacher_style.css">
 
 </head>
 <body>
 
+<!-- Inclusion de l'en-tête du tuteur -->
 <?php include '../components/teacher_header.php'; ?>
 
 <section class="playlists">
@@ -68,17 +77,21 @@ if(isset($_POST['delete'])){
       </div>
 
       <?php
+         // Sélection et affichage des playlists du tuteur
          $select_playlist = $conn->prepare("SELECT * FROM `playlist` WHERE tutor_id = ? ORDER BY date DESC");
          $select_playlist->execute([$tutor_id]);
          if($select_playlist->rowCount() > 0){
          while($fetch_playlist = $select_playlist->fetch(PDO::FETCH_ASSOC)){
             $playlist_id = $fetch_playlist['id'];
+            
+            // Compter le nombre de vidéos dans chaque playlist
             $count_videos = $conn->prepare("SELECT * FROM `content` WHERE playlist_id = ?");
             $count_videos->execute([$playlist_id]);
             $total_videos = $count_videos->rowCount();
       ?>
       <div class="box">
          <div class="flex">
+            <!-- Affichage du statut de la playlist -->
             <div><i class="fas fa-circle-dot" style="<?php if($fetch_playlist['status'] == 'active'){echo 'color:limegreen'; }else{echo 'color:red';} ?>"></i><span style="<?php if($fetch_playlist['status'] == 'active'){echo 'color:limegreen'; }else{echo 'color:red';} ?>"><?= $fetch_playlist['status']; ?></span></div>
             <div><i class="fas fa-calendar"></i><span><?= $fetch_playlist['date']; ?></span></div>
          </div>
@@ -106,23 +119,10 @@ if(isset($_POST['delete'])){
 
 </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script src="../js/teacher_script.js"></script>
 
 <script>
+   // Limitation de la longueur des descriptions affichées
    document.querySelectorAll('.playlists .box-container .box .description').forEach(content => {
       if(content.innerHTML.length > 100) content.innerHTML = content.innerHTML.slice(0, 100);
    });

@@ -1,23 +1,30 @@
 <?php
 
+// Inclure le fichier de connexion à la base de données
 include '../components/connect.php';
 
+// Vérifier si le cookie 'tutor_id' est défini
 if(isset($_COOKIE['tutor_id'])){
    $tutor_id = $_COOKIE['tutor_id'];
 }else{
    $tutor_id = '';
+   // Rediriger vers la page de connexion si le cookie n'est pas défini
    header('location:login.php');
 }
 
+// Vérifier si 'get_id' est passé dans l'URL
 if(isset($_GET['get_id'])){
    $get_id = $_GET['get_id'];
 }else{
    $get_id = '';
+   // Rediriger vers la page des playlists si 'get_id' n'est pas fourni
    header('location:playlist.php');
 }
 
+// Si le formulaire de mise à jour est soumis
 if(isset($_POST['submit'])){
 
+   // Récupérer et filtrer les données du formulaire
    $title = $_POST['title'];
    $title = filter_var($title, FILTER_SANITIZE_STRING);
    $description = $_POST['description'];
@@ -25,9 +32,11 @@ if(isset($_POST['submit'])){
    $status = $_POST['status'];
    $status = filter_var($status, FILTER_SANITIZE_STRING);
 
+   // Mettre à jour la playlist dans la base de données
    $update_playlist = $conn->prepare("UPDATE `playlist` SET title = ?, description = ?, status = ? WHERE id = ?");
    $update_playlist->execute([$title, $description, $status, $get_id]);
 
+   // Récupérer et traiter les informations sur l'image
    $old_image = $_POST['old_image'];
    $old_image = filter_var($old_image, FILTER_SANITIZE_STRING);
    $image = $_FILES['image']['name'];
@@ -38,6 +47,7 @@ if(isset($_POST['submit'])){
    $image_tmp_name = $_FILES['image']['tmp_name'];
    $image_folder = '../uploaded_files/'.$rename;
 
+   // Mettre à jour l'image si elle est fournie et de taille acceptable
    if(!empty($image)){
       if($image_size > 2000000){
          $message[] = 'image size is too large!';
@@ -55,17 +65,27 @@ if(isset($_POST['submit'])){
 
 }
 
+// Si le formulaire de suppression est soumis
 if(isset($_POST['delete'])){
+   // Récupérer et filtrer l'ID de la playlist à supprimer
    $delete_id = $_POST['playlist_id'];
    $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
+
+   // Supprimer l'image de la playlist
    $delete_playlist_thumb = $conn->prepare("SELECT * FROM `playlist` WHERE id = ? LIMIT 1");
    $delete_playlist_thumb->execute([$delete_id]);
    $fetch_thumb = $delete_playlist_thumb->fetch(PDO::FETCH_ASSOC);
    unlink('../uploaded_files/'.$fetch_thumb['thumb']);
+
+   // Supprimer les signets associés à la playlist
    $delete_bookmark = $conn->prepare("DELETE FROM `bookmark` WHERE playlist_id = ?");
    $delete_bookmark->execute([$delete_id]);
+
+   // Supprimer la playlist de la base de données
    $delete_playlist = $conn->prepare("DELETE FROM `playlist` WHERE id = ?");
    $delete_playlist->execute([$delete_id]);
+
+   // Rediriger vers la page des playlists après suppression
    header('location:playlists.php');
 }
 
@@ -79,11 +99,10 @@ if(isset($_POST['delete'])){
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Update Playlist</title>
    
-
-   <!-- font awesome cdn link  -->
+   <!-- Lien CDN pour Font Awesome -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
+   <!-- Lien vers le fichier CSS personnalisé -->
    <link rel="stylesheet" href="../css/teacher_style.css">
 
 </head>
@@ -96,6 +115,7 @@ if(isset($_POST['delete'])){
    <h1 class="heading">update playlist</h1>
 
    <?php
+         // Sélectionner la playlist à mettre à jour
          $select_playlist = $conn->prepare("SELECT * FROM `playlist` WHERE id = ?");
          $select_playlist->execute([$get_id]);
          if($select_playlist->rowCount() > 0){
@@ -105,6 +125,7 @@ if(isset($_POST['delete'])){
             $count_videos->execute([$playlist_id]);
             $total_videos = $count_videos->rowCount();
       ?>
+   <!-- Formulaire pour mettre à jour la playlist -->
    <form action="" method="post" enctype="multipart/form-data">
       <input type="hidden" name="old_image" value="<?= $fetch_playlist['thumb']; ?>">
       <p>playlist status <span>*</span></p>
@@ -132,27 +153,12 @@ if(isset($_POST['delete'])){
    <?php
       } 
    }else{
+      // Afficher un message si aucune playlist n'est trouvée
       echo '<p class="empty">no playlist added yet!</p>';
    }
    ?>
 
 </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script src="../js/teacher_script.js"></script>
 

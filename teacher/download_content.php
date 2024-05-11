@@ -1,29 +1,31 @@
 <?php
-// download_content.php
+// Fichier download_content.php
 
+// Inclusion du fichier de connexion à la base de données
 include '../components/connect.php';
 
+// Vérification si content_id est fourni
 if(isset($_POST['content_id'])){
     $content_id = $_POST['content_id'];
     
-    // Fetch content details from the database
+    // Récupération des détails du contenu à partir de la base de données
     $select_content = $conn->prepare("SELECT * FROM `content` WHERE id = ?");
     $select_content->execute([$content_id]);
     $fetch_content = $select_content->fetch(PDO::FETCH_ASSOC);
 
-    // File path of the content to be downloaded
+    // Chemin du fichier du contenu à télécharger
     $file_path = "../uploaded_files/" . $fetch_content['video'];
 
-    // Set headers for file download
+    // Définition des en-têtes pour le téléchargement du fichier
     header('Content-Type: application/octet-stream');
     header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
     header('Content-Length: ' . filesize($file_path));
 
-    // Output file for download
+    // Sortie du fichier pour le téléchargement
     readfile($file_path);
     exit();
 } else {
-    // Redirect back if content_id is not provided
+    // Redirection si content_id n'est pas fourni
     header('Location: contents.php');
     exit();
 }

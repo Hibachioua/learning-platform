@@ -1,23 +1,30 @@
 <?php
 
+// Inclure le fichier de connexion à la base de données
 include '../components/connect.php';
 
+// Vérifier si le cookie 'tutor_id' est défini
 if(isset($_COOKIE['tutor_id'])){
    $tutor_id = $_COOKIE['tutor_id'];
 }else{
    $tutor_id = '';
+   // Rediriger vers la page de connexion si le cookie n'est pas défini
    header('location:login.php');
 }
 
+// Vérifier si 'get_id' est passé dans l'URL
 if(isset($_GET['get_id'])){
    $get_id = $_GET['get_id'];
 }else{
    $get_id = '';
+   // Rediriger vers le tableau de bord si 'get_id' n'est pas fourni
    header('location:dashboard.php');
 }
 
+// Si le formulaire de mise à jour est soumis
 if(isset($_POST['update'])){
 
+   // Récupérer et filtrer les données du formulaire
    $video_id = $_POST['video_id'];
    $video_id = filter_var($video_id, FILTER_SANITIZE_STRING);
    $status = $_POST['status'];
@@ -29,14 +36,17 @@ if(isset($_POST['update'])){
    $playlist = $_POST['playlist'];
    $playlist = filter_var($playlist, FILTER_SANITIZE_STRING);
 
+   // Mettre à jour le contenu dans la base de données
    $update_content = $conn->prepare("UPDATE `content` SET title = ?, description = ?, status = ? WHERE id = ?");
    $update_content->execute([$title, $description, $status, $video_id]);
 
+   // Mettre à jour la playlist si elle est fournie
    if(!empty($playlist)){
       $update_playlist = $conn->prepare("UPDATE `content` SET playlist_id = ? WHERE id = ?");
       $update_playlist->execute([$playlist, $video_id]);
    }
 
+   // Récupérer et traiter les informations sur la vignette
    $old_thumb = $_POST['old_thumb'];
    $old_thumb = filter_var($old_thumb, FILTER_SANITIZE_STRING);
    $thumb = $_FILES['thumb']['name'];
@@ -47,6 +57,7 @@ if(isset($_POST['update'])){
    $thumb_tmp_name = $_FILES['thumb']['tmp_name'];
    $thumb_folder = '../uploaded_files/'.$rename_thumb;
 
+   // Mettre à jour la vignette si elle est fournie et de taille acceptable
    if(!empty($thumb)){
       if($thumb_size > 2000000){
          $message[] = 'image size is too large!';
@@ -60,6 +71,7 @@ if(isset($_POST['update'])){
       }
    }
 
+   // Récupérer et traiter les informations sur la vidéo
    $old_video = $_POST['old_video'];
    $old_video = filter_var($old_video, FILTER_SANITIZE_STRING);
    $video = $_FILES['video']['name'];
@@ -69,6 +81,7 @@ if(isset($_POST['update'])){
    $video_tmp_name = $_FILES['video']['tmp_name'];
    $video_folder = '../uploaded_files/'.$rename_video;
 
+   // Mettre à jour la vidéo si elle est fournie
    if(!empty($video)){
       $update_video = $conn->prepare("UPDATE `content` SET video = ? WHERE id = ?");
       $update_video->execute([$rename_video, $video_id]);
@@ -82,28 +95,36 @@ if(isset($_POST['update'])){
 
 }
 
+// Si le formulaire de suppression est soumis
 if(isset($_POST['delete_video'])){
 
+   // Récupérer et filtrer l'ID de la vidéo à supprimer
    $delete_id = $_POST['video_id'];
    $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
 
+   // Supprimer la vignette associée à la vidéo
    $delete_video_thumb = $conn->prepare("SELECT thumb FROM `content` WHERE id = ? LIMIT 1");
    $delete_video_thumb->execute([$delete_id]);
    $fetch_thumb = $delete_video_thumb->fetch(PDO::FETCH_ASSOC);
    unlink('../uploaded_files/'.$fetch_thumb['thumb']);
 
+   // Supprimer le fichier vidéo
    $delete_video = $conn->prepare("SELECT video FROM `content` WHERE id = ? LIMIT 1");
    $delete_video->execute([$delete_id]);
    $fetch_video = $delete_video->fetch(PDO::FETCH_ASSOC);
    unlink('../uploaded_files/'.$fetch_video['video']);
 
+   // Supprimer les likes associés à la vidéo
    $delete_likes = $conn->prepare("DELETE FROM `likes` WHERE content_id = ?");
    $delete_likes->execute([$delete_id]);
+   // Supprimer les commentaires associés à la vidéo
    $delete_comments = $conn->prepare("DELETE FROM `comments` WHERE content_id = ?");
    $delete_comments->execute([$delete_id]);
 
+   // Supprimer le contenu de la base de données
    $delete_content = $conn->prepare("DELETE FROM `content` WHERE id = ?");
    $delete_content->execute([$delete_id]);
+   // Rediriger vers la page des contenus après suppression
    header('location:contents.php');
     
 }
@@ -118,10 +139,10 @@ if(isset($_POST['delete_video'])){
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Update video</title>
    
-   <!-- font awesome cdn link  -->
+   <!-- Lien CDN pour Font Awesome -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
+   <!-- Lien vers le fichier CSS personnalisé -->
    <link rel="stylesheet" href="../css/teacher_style.css">
 
 </head>
@@ -134,12 +155,14 @@ if(isset($_POST['delete_video'])){
    <h1 class="heading">update content</h1>
 
    <?php
+      // Sélectionner la vidéo à mettre à jour
       $select_videos = $conn->prepare("SELECT * FROM `content` WHERE id = ? AND tutor_id = ?");
       $select_videos->execute([$get_id, $tutor_id]);
       if($select_videos->rowCount() > 0){
          while($fecth_videos = $select_videos->fetch(PDO::FETCH_ASSOC)){ 
             $video_id = $fecth_videos['id'];
    ?>
+   <!-- Formulaire pour mettre à jour le contenu de la vidéo -->
    <form action="" method="post" enctype="multipart/form-data">
       <input type="hidden" name="video_id" value="<?= $fecth_videos['id']; ?>">
       <input type="hidden" name="old_thumb" value="<?= $fecth_videos['thumb']; ?>">
@@ -158,6 +181,7 @@ if(isset($_POST['delete_video'])){
       <select name="playlist" class="box">
          <option value="<?= $fecth_videos['playlist_id']; ?>" selected>--select playlist</option>
          <?php
+         // Sélectionner les playlists associées au tuteur
          $select_playlists = $conn->prepare("SELECT * FROM `playlist` WHERE tutor_id = ?");
          $select_playlists->execute([$tutor_id]);
          if($select_playlists->rowCount() > 0){
@@ -187,26 +211,12 @@ if(isset($_POST['delete_video'])){
    <?php
          }
       }else{
+         // Afficher un message si la vidéo n'est pas trouvée
          echo '<p class="empty">video not found! <a href="add_content.php" class="btn" style="margin-top: 1.5rem;">add videos</a></p>';
       }
    ?>
 
 </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script src="../js/teacher_script.js"></script>
 

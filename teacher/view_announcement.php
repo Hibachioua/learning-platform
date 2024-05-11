@@ -1,28 +1,38 @@
 <?php
 
+// Inclure le fichier de connexion à la base de données
 include '../components/connect.php';
 
+// Vérifier si le cookie 'tutor_id' est défini
 if(isset($_COOKIE['tutor_id'])){
    $tutor_id = $_COOKIE['tutor_id'];
 }else{
    $tutor_id = '';
+   // Rediriger vers la page de connexion si le cookie n'est pas défini
    header('location:login.php');
 }
 
+// Vérifier si 'get_id' est passé dans l'URL
 if(isset($_GET['get_id'])){
    $get_id = $_GET['get_id'];
 }else{
    $get_id = '';
+   // Rediriger vers la page des annonces si 'get_id' n'est pas fourni
    header('location:announcements.php');
 }
 
+// Si le formulaire de suppression est soumis
 if(isset($_POST['delete_announcement'])){
 
+   // Récupérer et filtrer l'ID de l'annonce à supprimer
    $delete_id = $_POST['announcement_id'];
    $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
 
+   // Supprimer l'annonce de la base de données
    $delete_announcement = $conn->prepare("DELETE FROM `Announcements` WHERE announcement_id = ?");
    $delete_announcement->execute([$delete_id]);
+   
+   // Rediriger vers la page des annonces après suppression
    header('location:announcements.php');
     
 }
@@ -37,13 +47,13 @@ if(isset($_POST['delete_announcement'])){
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>View Announcement</title>
 
-   <!-- font awesome cdn link  -->
+   <!-- Lien CDN pour Font Awesome -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
+   <!-- Lien vers le fichier CSS personnalisé -->
    <link rel="stylesheet" href="../css/teacher_style.css">
    <style>
-      /* Additional CSS styles for centering and enlarging the display part */
+      /* Styles CSS supplémentaires pour centrer et agrandir la partie d'affichage */
       .container {
          display: flex;
          flex-direction: column;
@@ -58,8 +68,11 @@ if(isset($_POST['delete_announcement'])){
 <section class="view-announcement">
 
    <?php
+      // Sélectionner l'annonce à afficher
       $select_announcement = $conn->prepare("SELECT * FROM `Announcements` WHERE announcement_id = ? AND tutor_id = ?");
       $select_announcement->execute([$get_id, $tutor_id]);
+      
+      // Vérifier si des annonces ont été trouvées
       if($select_announcement->rowCount() > 0){
          while($fetch_announcement = $select_announcement->fetch(PDO::FETCH_ASSOC)){
             $announcement_id = $fetch_announcement['announcement_id'];
@@ -76,6 +89,7 @@ if(isset($_POST['delete_announcement'])){
    <?php
          }
       }else{
+         // Afficher un message si aucune annonce n'est trouvée
          echo '<p class="empty">Announcement not found!</p>';
       }
    ?>
