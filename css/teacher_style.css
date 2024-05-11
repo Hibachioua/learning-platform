@@ -1177,11 +1177,14 @@ p{
   background-color: var(--light-bg);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
-.comments .show-comments .add-comment{
-
-  border-radius: 0.5rem;
- 
-
+.add-comment textarea {
+  width: 100%; 
+  padding: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  box-sizing: border-box; 
+  resize: vertical; 
+  font-size: 16px; 
 }
 
 
