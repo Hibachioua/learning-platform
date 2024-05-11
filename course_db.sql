@@ -35,11 +35,6 @@ CREATE TABLE `content` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-CREATE TABLE `likes` (
-  `user_id` varchar(20) NOT NULL,
-  `tutor_id` varchar(20) NOT NULL,
-  `content_id` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `playlist` (
   `id` varchar(20) NOT NULL,
@@ -113,14 +108,15 @@ CREATE TABLE `deletion_tutors` (
 
 --insert admin
 INSERT INTO `admin`( `name`, `email`, `password`, `image`) VALUES ('Admin','chioua.hiba1@gmail.com','ab28cfc74820d6462adabc4f2c4221b803a83507','cDM2EJ51so4lEcXg3O0M.avif');
+INSERT INTO `users`( `name`, `email`, `password`, `image`) VALUES ('Ahmed Jaber','ahmed.jaber@gmail.com','c38ae1eb311400460911a30ad83ae2513ba00cad','54O4Il1xiSkAPQcDzdDa.jpg');
+INSERT INTO `tutors`( `name`, `email`, `password`, `image`) VALUES ('Khalid Manssouri','khalid@gmail.com','188a381a68579ab6419f6d0d1be2d01eb3158b32','RzfxlTJNEcjGMoWFdaFJ.jpg');
 COMMIT;
 
 
 
 
 
-password:
-admin@
+
 
 ALTER TABLE `content`
 ADD COLUMN `prerequisites` TEXT NOT NULL AFTER `description`;

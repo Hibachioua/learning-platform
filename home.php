@@ -8,9 +8,7 @@ if(isset($_COOKIE['user_id'])){
    $user_id = '';
 }
 
-$select_likes = $conn->prepare("SELECT * FROM `likes` WHERE user_id = ?");
-$select_likes->execute([$user_id]);
-$total_likes = $select_likes->rowCount();
+
 
 $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE user_id = ?");
 $select_comments->execute([$user_id]);
@@ -122,9 +120,7 @@ $total_bookmarked = $select_bookmark->rowCount();
          if($user_id != ''){
       ?>
             <div class="box">
-                <h3 class="title">Likes and comments</h3>
-                <p>Total likes : <span><?= $total_likes; ?></span></p>
-                <a href="likes.php" class="inline-btn">View likes</a>
+                <h3 class="title">Bookmark and comments</h3>
                 <p>Total comments : <span><?= $total_comments; ?></span></p>
                 <a href="comments.php" class="inline-btn">View comments</a>
                 <p>Saved playlist : <span><?= $total_bookmarked; ?></span></p>
