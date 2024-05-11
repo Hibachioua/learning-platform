@@ -58,7 +58,7 @@ if(isset($_POST['add_comment']) && isset($_POST['comment_box'])){
       if($select_content->rowCount() > 0){
 
          $insert_comment = $conn->prepare("INSERT INTO `comments`(id, content_id, user_id, tutor_id, comment, parent_id) VALUES(?,?,?,?,?,?)");
-         $insert_comment->execute([$id, $content_id, $user_id, $tutor_id, $comment_box, null]);
+         $insert_comment->execute([$id, $content_id, $user_id, null, $comment_box, null]);
          $message[] = 'New comment added!';
 
       }else{
@@ -182,10 +182,6 @@ if(isset($_POST['edit_comment'])){
 
             // Display prerequisites
             echo "<p> <span>Prerequisites:</span> {$fetch_content['prerequisites']}</p>";
-
-            $verify_likes = $conn->prepare("SELECT * FROM `likes` WHERE user_id = ? AND content_id = ?");
-            $verify_likes->execute([$user_id, $content_id]);
-
             $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ? LIMIT 1");
             $select_tutor->execute([$fetch_content['tutor_id']]);
             $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);

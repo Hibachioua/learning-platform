@@ -31,8 +31,6 @@ if(isset($_POST['delete_video'])){
    $fetch_video = $delete_video->fetch(PDO::FETCH_ASSOC);
    unlink('../uploaded_files/'.$fetch_video['video']);
 
-   $delete_likes = $conn->prepare("DELETE FROM `likes` WHERE content_id = ?");
-   $delete_likes->execute([$delete_id]);
    $delete_comments = $conn->prepare("DELETE FROM `comments` WHERE content_id = ?");
    $delete_comments->execute([$delete_id]);
 
@@ -108,10 +106,6 @@ if(isset($_POST['delete_comment'])){
          while($fetch_content = $select_content->fetch(PDO::FETCH_ASSOC)){
             $video_id = $fetch_content['id'];
 
-            $count_likes = $conn->prepare("SELECT * FROM `likes` WHERE tutor_id = ? AND content_id = ?");
-            $count_likes->execute([$tutor_id, $video_id]);
-            $total_likes = $count_likes->rowCount();
-
             $count_comments = $conn->prepare("SELECT * FROM `comments` WHERE tutor_id = ? AND content_id = ?");
             $count_comments->execute([$tutor_id, $video_id]);
             $total_comments = $count_comments->rowCount();
@@ -144,7 +138,6 @@ if(isset($_POST['delete_comment'])){
    <div class="date"><i class="fas fa-calendar"></i><span><?= $fetch_content['date']; ?></span></div>
    <h3 class="title"><?= $fetch_content['title']; ?></h3>
    <div class="flex">
-      <div><i class="fas fa-heart"></i><span><?= $total_likes; ?></span></div>
       <div><i class="fas fa-comment"></i><span><?= $total_comments; ?></span></div>
    </div>
    <form action="" method="post">

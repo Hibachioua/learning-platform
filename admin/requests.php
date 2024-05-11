@@ -52,6 +52,9 @@ if(isset($_POST['action_tutor'])) {
       // Supprimer le compte du tuteur correspondant
       $delete_tutor = $conn->prepare("DELETE FROM tutors WHERE id = (SELECT tutor_id FROM deletion_tutors WHERE request_id = ?)");
       $delete_tutor->execute([$request]);
+      // Supprimer les cours du tuteur correspondant
+      $delete_tutor_content = $conn->prepare("DELETE FROM content WHERE tutor_id = (SELECT tutor_id FROM deletion_tutors WHERE request_id = ?)");
+      $delete_tutor_content->execute([$request]);
   }
 
   // Supprimer la demande de la table deletion_tutors
@@ -87,7 +90,7 @@ $deletion_requests_tutors = $select_deletion_requests_tutors->fetchAll();
     <h1 class="attente"><center>Deletion requests for students</center></h1>
     <ul >
         <?php foreach ($deletion_requests as $request) : ?>
-            <li >Student <?= $request['user_name']; ?> <i> waiting for his account to be deleted</i>
+            <li >Student <?= $request['user_name']; ?> <i> Waiting for his account to be deleted</i>
                 <form action="" method="post">
                     <input type="hidden" name="request_id" value="<?= $request['request_id']; ?>">
                     <button type="submit" class="accept" name="action_user" value="accept">Accepter</button>
@@ -101,7 +104,7 @@ $deletion_requests_tutors = $select_deletion_requests_tutors->fetchAll();
 <h1 class="attente"><center>Deletion requests for tutors</center></h1>
     <ul>
         <?php foreach ($deletion_requests_tutors as $dm) : ?>
-            <li> Teacher <?= $dm['tutor_name']; ?>  <i>waiting for his account to be deleted</i>
+            <li> Teacher <?= $dm['tutor_name']; ?>  <i>Waiting for his account to be deleted</i>
             <form action="" method="post"> 
                     <input type="hidden" name="request" value="<?= $dm['request_id']; ?>"> 
                     <button type="submit" class="accept"  name="action_tutor" value="accepter">Accepter</button>

@@ -95,8 +95,6 @@ if($request_status) {
          <div class="box">
             <div class="flex">
 
-         <div class="box">
-            <div class="flex">
                <i class="fas fa-comment"></i>
                <div>
                   <h3><?= $total_comments; ?></h3>

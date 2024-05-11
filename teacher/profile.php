@@ -56,16 +56,16 @@ if(isset($_POST['delete_teacher'])) {
    
 <section class="tutor-profile" style="min-height: calc(100vh - 19rem);"> 
 
-   <h1 class="heading">profile details</h1>
+   <h1 class="heading">Profile details</h1>
 
    <div class="details">
       <div class="tutor">
          <img src="../uploaded_files/<?= $fetch_profile['image']; ?>" alt="">
          <h3><?= $fetch_profile['name']; ?></h3>
          <span>Teacher</span>
-         <a href="update.php" class="inline-btn">update profile</a>
+         <a href="update.php" class="inline-btn">Update profile</a>
          <form action="profile.php" method="post">
-            <button type="submit" name="delete_teacher" class="teacher-btn">delete My account</button>
+            <button type="submit" name="delete_teacher" class="teacher-btn">Delete My account</button>
          </form>
          <?php if(!empty($message)): ?>
         <p><?php echo $message; ?></p>
@@ -75,17 +75,18 @@ if(isset($_POST['delete_teacher'])) {
          <div class="box">
             <span><?= $total_playlists; ?></span>
             <p>total playlists</p>
-            <a href="playlists.php" class="btn">view playlists</a>
+            <a href="playlists.php" class="btn">View playlists</a>
          </div>
          <div class="box">
             <span><?= $total_contents; ?></span>
             <p>total videos</p>
-            <a href="contents.php" class="btn">view contents</a>
+
+            <a href="contents.php" class="btn">View contents</a>
          </div>
          <div class="box">
             <span><?= $total_comments; ?></span>
             <p>total comments</p>
-            <a href="comments.php" class="btn">view comments</a>
+            <a href="comments.php" class="btn">View comments</a>
          </div>
       </div>
    </div>
