@@ -33,3 +33,16 @@ git clone  https://github.com/Hibachioua/learning-platform.git
 cd eduhub
 Utilisez un serveur local comme XAMPP
 Copiez le script mysql course_db.sql dans phpmyadmin
+Consultez les comptes à utiliser pour se connecter à partir de Accountsfiles 
+Les comptes:
+Admin Account:
+Email:  chioua.hiba1@gmail.com
+Password:  admin@
+
+Student Account:
+Email:  ahmed.jaber@gmail.com
+Password:  student@
+
+Teacher Account:
+Email:  khalid@gmail.com
+Password:  teacher@
