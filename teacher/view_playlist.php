@@ -79,14 +79,12 @@ if(isset($_POST['delete_video'])){
       // Supprimer la vidéo de la base de données
       $delete_content = $conn->prepare("DELETE FROM `content` WHERE id = ?");
       $delete_content->execute([$delete_id]);
-      
-      // Ajouter un message de confirmation
-      $message[] = 'video deleted!';
+      $message[] = 'Course deleted!';
    }else{
-      // Ajouter un message si la vidéo est déjà supprimée
-      $message[] = 'video already deleted!';
+      $message[] = 'Course already deleted!';
    }
 }
+
 
 ?>
 
@@ -111,7 +109,7 @@ if(isset($_POST['delete_video'])){
    
 <section class="playlist-details">
 
-   <h1 class="heading">playlist details</h1>
+   <h1 class="heading">Paylist details</h1>
 
    <?php
       // Sélectionner la playlist à afficher
@@ -156,7 +154,7 @@ if(isset($_POST['delete_video'])){
 
 <section class="contents">
 
-   <h1 class="heading">playlist videos</h1>
+   <h1 class="heading">Playlist videos</h1>
 
    <div class="box-container">
 

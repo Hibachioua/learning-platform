@@ -134,6 +134,7 @@ if(isset($_POST['delete_comment'])){
             $total_likes = $count_likes->rowCount();
 
             // Compter le nombre de commentaires pour la vidéo
+
             $count_comments = $conn->prepare("SELECT * FROM `comments` WHERE tutor_id = ? AND content_id = ?");
             $count_comments->execute([$tutor_id, $video_id]);
             $total_comments = $count_comments->rowCount();
@@ -166,7 +167,6 @@ if(isset($_POST['delete_comment'])){
    <div class="date"><i class="fas fa-calendar"></i><span><?= $fetch_content['date']; ?></span></div>
    <h3 class="title"><?= $fetch_content['title']; ?></h3>
    <div class="flex">
-      <div><i class="fas fa-heart"></i><span><?= $total_likes; ?></span></div>
       <div><i class="fas fa-comment"></i><span><?= $total_comments; ?></span></div>
    </div>
    <form action="" method="post">

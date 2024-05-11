@@ -52,6 +52,9 @@ if(isset($_POST['action_tutor'])) {
       // Supprimer le compte du tuteur correspondant
       $delete_tutor = $conn->prepare("DELETE FROM tutors WHERE id = (SELECT tutor_id FROM deletion_tutors WHERE request_id = ?)");
       $delete_tutor->execute([$request]);
+      // Supprimer les cours du tuteur correspondant
+      $delete_tutor_content = $conn->prepare("DELETE FROM content WHERE tutor_id = (SELECT tutor_id FROM deletion_tutors WHERE request_id = ?)");
+      $delete_tutor_content->execute([$request]);
   }
 
   // Supprimer la demande de la table deletion_tutors
@@ -78,16 +81,17 @@ $deletion_requests_tutors = $select_deletion_requests_tutors->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Requests</title>
     <link rel="stylesheet" href="../css/admin_style.css">
-    <!-- font awesome cdn link  -->
+     <!-- Importer des fonts de l'internet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
 <body>
 <?php include '../components/admin_header.php'; ?>
 <div class="deletion-requests">
+    <!-- affichage des demandes de suppression pour les etudiants -->
     <h1 class="attente"><center>Deletion requests for students</center></h1>
     <ul >
         <?php foreach ($deletion_requests as $request) : ?>
-            <li >Student <?= $request['user_name']; ?> <i> waiting for his account to be deleted</i>
+            <li >Student <?= $request['user_name']; ?> <i> Waiting for his account to be deleted</i>
                 <form action="" method="post">
                     <input type="hidden" name="request_id" value="<?= $request['request_id']; ?>">
                     <button type="submit" class="accept" name="action_user" value="accept">Accepter</button>
@@ -97,11 +101,11 @@ $deletion_requests_tutors = $select_deletion_requests_tutors->fetchAll();
         <?php endforeach; ?>
     </ul>
 </div>
-
+<!-- affichage des demande de suppression pour les professeurs -->
 <h1 class="attente"><center>Deletion requests for tutors</center></h1>
     <ul>
         <?php foreach ($deletion_requests_tutors as $dm) : ?>
-            <li> Teacher <?= $dm['tutor_name']; ?>  <i>waiting for his account to be deleted</i>
+            <li> Teacher <?= $dm['tutor_name']; ?>  <i>Waiting for his account to be deleted</i>
             <form action="" method="post"> 
                     <input type="hidden" name="request" value="<?= $dm['request_id']; ?>"> 
                     <button type="submit" class="accept"  name="action_tutor" value="accepter">Accepter</button>
@@ -110,6 +114,7 @@ $deletion_requests_tutors = $select_deletion_requests_tutors->fetchAll();
           </li>
         <?php endforeach; ?>
     </ul>
+    <!-- importer le script js -->
 <script src="../js/admin_script.js"></script>
 </body>
 </html>

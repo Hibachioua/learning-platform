@@ -1,25 +1,34 @@
 <?php
 include '../components/connect.php';
-
+//La vérification de l'existence du cookie tutor_id permet de déterminer si l'utilisateur a été précédemment
+// identifié en tant que tuteur ou s'il doit être redirigé vers la page de connexion.
+// Vérifie si le cookie tutor_id est défini
 if(isset($_COOKIE['tutor_id'])){
+   // Si oui, assigne sa valeur à la variable $tutor_id
    $tutor_id = $_COOKIE['tutor_id'];
 }else{
+   // Si le cookie tutor_id n'est pas défini, initialise $tutor_id à une chaîne vide
    $tutor_id = '';
+   // Redirige l'utilisateur vers la page de connexion
    header('location:login.php');
 }
 
-// Fetch teacher's content
+
+// Sélectionne tout le contenu associé au tuteur spécifié
 $select_teacher_content = $conn->prepare("SELECT * FROM content WHERE tutor_id = ?");
+// Exécute la requête préparée en remplaçant le marqueur de paramètre par la valeur de $tutor_id
 $select_teacher_content->execute([$tutor_id]);
+// Récupère tous les résultats de la requête sous forme de tableau associatif
 $teacher_content = $select_teacher_content->fetchAll();
 
-// Fetch users
+// Sélectionne tous les utilisateurs de la base de données
 $select_users = $conn->query("SELECT * FROM users");
 $users = $select_users->fetchAll();
 
-// Fetch tutors
+// Sélectionne tous les tuteurs de la base de données
 $select_tutors = $conn->query("SELECT * FROM tutors");
 $tutors = $select_tutors->fetchAll();
+
 
 ?>
 
@@ -31,10 +40,10 @@ $tutors = $select_tutors->fetchAll();
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Dashboard</title>
 
-   <!-- font awesome cdn link  -->
+   <!-- Importer des fonts de l'internet -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
+   <!-- Importer le fichier .css -->
    <link rel="stylesheet" href="../css/admin_style.css">
 
 </head>
@@ -43,7 +52,7 @@ $tutors = $select_tutors->fetchAll();
 <?php include '../components/admin_header.php'; ?>
    
 <section class="dashboard">
-
+<!-- Creer un tableau pour l'admin peut voir les enseignants connectes-->
    <h1 class="heading">Dashboard</h1>
     <h2 class="heading" >Teachers</h2>
          <table class="content-table">
@@ -58,6 +67,7 @@ $tutors = $select_tutors->fetchAll();
             </thead>
             <tbody>
                <?php foreach ($tutors as $tutor) { ?>
+                  <!-- Boucler sur chaque enseignant pour qu'il doit etre affiche à l'admin-->
                   <tr>
                      <td><?php echo $tutor['id']; ?></td>
                      <td><?php echo $tutor['name']; ?></td>
@@ -81,6 +91,7 @@ $tutors = $select_tutors->fetchAll();
       <br>
 
    <h2 class="heading" >Students</h2>
+   <!-- Meme chose pour les etudiants,on doit juste creer un tableau et afficher les etudiants pour l'admin-->
    <table class="content-table">
             <thead>
                <tr>
@@ -104,11 +115,8 @@ $tutors = $select_tutors->fetchAll();
             </tbody>
          </table>
      
-
-   
-   
 </section>
-
+<!-- importer le script js -->
 <script src="../js/admin_script.js"></script>
 
 </body>

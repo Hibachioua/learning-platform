@@ -869,7 +869,7 @@ section{
   background-color: var(--light-bg);
   resize: none;
   font-size: 1.8rem;
-  color: var(--black);
+  color: var(--white);
 }
 
 .comments .show-comments{
