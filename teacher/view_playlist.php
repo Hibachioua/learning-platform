@@ -79,20 +79,12 @@ if(isset($_POST['delete_video'])){
       // Supprimer la vidéo de la base de données
       $delete_content = $conn->prepare("DELETE FROM `content` WHERE id = ?");
       $delete_content->execute([$delete_id]);
-<<<<<<< HEAD
       $message[] = 'Course deleted!';
    }else{
       $message[] = 'Course already deleted!';
-=======
-      
-      // Ajouter un message de confirmation
-      $message[] = 'video deleted!';
-   }else{
-      // Ajouter un message si la vidéo est déjà supprimée
-      $message[] = 'video already deleted!';
->>>>>>> b9649faadb4d35d9d2d5a95360d6b2081d54f856
    }
 }
+
 
 ?>
 
