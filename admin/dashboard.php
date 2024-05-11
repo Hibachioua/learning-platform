@@ -115,9 +115,6 @@ $tutors = $select_tutors->fetchAll();
             </tbody>
          </table>
      
-
-   
-   
 </section>
 <!-- importer le script js -->
 <script src="../js/admin_script.js"></script>

@@ -81,12 +81,13 @@ $deletion_requests_tutors = $select_deletion_requests_tutors->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Requests</title>
     <link rel="stylesheet" href="../css/admin_style.css">
-    <!-- font awesome cdn link  -->
+     <!-- Importer des fonts de l'internet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
 <body>
 <?php include '../components/admin_header.php'; ?>
 <div class="deletion-requests">
+    <!-- affichage des demandes de suppression pour les etudiants -->
     <h1 class="attente"><center>Deletion requests for students</center></h1>
     <ul >
         <?php foreach ($deletion_requests as $request) : ?>
@@ -100,7 +101,7 @@ $deletion_requests_tutors = $select_deletion_requests_tutors->fetchAll();
         <?php endforeach; ?>
     </ul>
 </div>
-
+<!-- affichage des demande de suppression pour les professeurs -->
 <h1 class="attente"><center>Deletion requests for tutors</center></h1>
     <ul>
         <?php foreach ($deletion_requests_tutors as $dm) : ?>
@@ -113,6 +114,7 @@ $deletion_requests_tutors = $select_deletion_requests_tutors->fetchAll();
           </li>
         <?php endforeach; ?>
     </ul>
+    <!-- importer le script js -->
 <script src="../js/admin_script.js"></script>
 </body>
 </html>
