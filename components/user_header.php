@@ -41,7 +41,6 @@ if(isset($message)){
                 <h3><?= $fetch_profile['name']; ?></h3>
                 <span>student</span>
                 <a href="profile.php" class="btn" onclick="toggleNotifications()">View profile</a>
-  
                 <a href="components/user_logout.php" onclick="return confirm('logout from this website?');" class="delete-btn">Logout</a>
                 <?php
             } else {
