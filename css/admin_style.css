@@ -140,7 +140,7 @@ section{
 .message{
    position: sticky;
    top:0;
-   background-color: var(--light-bg);
+   background-color: var(--main-color);
    padding:2rem;
    display: flex;
    align-items: center;

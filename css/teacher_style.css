@@ -202,7 +202,7 @@ section {
 .message {
   position: sticky;
   top: 0;
-  background-color: var(--light-bg);
+  background-color: var(--bleueG);
   padding: 2rem;
   display: flex;
   align-items: center;

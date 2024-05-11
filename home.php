@@ -145,8 +145,8 @@ $total_bookmarked = $select_bookmark->rowCount();
                     <a ><i class="fa-solid fa-gears"></i><span>Digital Electronics</span></a>
                     <a ><i class="fa-solid fa-c"></i><span>Advanced Programming</span></a>
                     <a><i class="fa-brands fa-contao"></i><span>Compilation & Language </span></a>
-                    <a ><i class="fas fa-cog"></i><span>Système d'exploitation</span></a>
-                    <a ><i class="fa-solid fa-laptop-code"></i><span>Architecture des Ordinateurs</span></a>
+                    <a ><i class="fas fa-cog"></i><span>Operating systems</span></a>
+                    <a ><i class="fa-solid fa-laptop-code"></i><span>Computer Architecture</span></a>
 
                 </div>
             </div>
