@@ -33,19 +33,6 @@ if(isset($_POST['like_content'])){
 
       $tutor_id = $fetch_content['tutor_id'];
 
-      $select_likes = $conn->prepare("SELECT * FROM `likes` WHERE user_id = ? AND content_id = ?");
-      $select_likes->execute([$user_id, $content_id]);
-
-      if($select_likes->rowCount() > 0){
-         $remove_likes = $conn->prepare("DELETE FROM `likes` WHERE user_id = ? AND content_id = ?");
-         $remove_likes->execute([$user_id, $content_id]);
-         $message[] = 'Rmoved from likes!';
-      }else{
-         $insert_likes = $conn->prepare("INSERT INTO `likes`(user_id, tutor_id, content_id) VALUES(?,?,?)");
-         $insert_likes->execute([$user_id, $tutor_id, $content_id]);
-         $message[] = 'Added to likes!';
-      }
-
    }else{
       $message[] = 'Please login first!';
    }
@@ -113,7 +100,6 @@ if(isset($_POST['edit_comment'])){
    $fetch_comment = $select_comment->fetch(PDO::FETCH_ASSOC);
 
    if($select_comment->rowCount() > 0){
-      // Here you can include HTML and PHP code for editing the comment, and update it accordingly
       $message[] = 'Edit your comment here!';
    }else{
       $message[] = 'Comment not found or you are not authorized to edit it!';
@@ -196,10 +182,6 @@ if(isset($_POST['edit_comment'])){
 
             // Display prerequisites
             echo "<p> <span>Prerequisites:</span> {$fetch_content['prerequisites']}</p>";
-
-            $select_likes = $conn->prepare("SELECT * FROM `likes` WHERE content_id = ?");
-            $select_likes->execute([$content_id]);
-            $total_likes = $select_likes->rowCount();  
 
             $verify_likes = $conn->prepare("SELECT * FROM `likes` WHERE user_id = ? AND content_id = ?");
             $verify_likes->execute([$user_id, $content_id]);

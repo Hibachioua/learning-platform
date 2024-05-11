@@ -61,10 +61,6 @@ if(isset($_COOKIE['user_id'])){
                   $count_contents->execute([$tutor_id]);
                   $total_contents = $count_contents->rowCount();
 
-                  $count_likes = $conn->prepare("SELECT * FROM `likes` WHERE tutor_id = ?");
-                  $count_likes->execute([$tutor_id]);
-                  $total_likes = $count_likes->rowCount();
-
                   $count_comments = $conn->prepare("SELECT * FROM `comments` WHERE tutor_id = ?");
                   $count_comments->execute([$tutor_id]);
                   $total_comments = $count_comments->rowCount();
@@ -79,7 +75,6 @@ if(isset($_COOKIE['user_id'])){
          </div>
          <p>Playlists : <span><?= $total_playlists; ?></span></p>
          <p>Total courses : <span><?= $total_contents ?></span></p>
-         <p>Total likes : <span><?= $total_likes ?></span></p>
          <p>Total comments : <span><?= $total_comments ?></span></p>
          <form action="tutor_profile.php" method="post">
             <input type="hidden" name="tutor_email" value="<?= $fetch_tutor['email']; ?>">
