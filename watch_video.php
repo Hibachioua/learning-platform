@@ -20,7 +20,6 @@ if(isset($_GET['get_id'])){
    header('location:home.php');
 }
 
-if(isset($_POST['like_content'])){
 
    if($user_id != ''){
 
@@ -63,13 +62,12 @@ if(isset($_POST['add_comment']) && isset($_POST['comment_box'])){
       $select_content = $conn->prepare("SELECT * FROM `content` WHERE id = ? LIMIT 1");
       $select_content->execute([$content_id]);
       $fetch_content = $select_content->fetch(PDO::FETCH_ASSOC);
-
-      $tutor_id = $fetch_content['tutor_id'];
+      $tutor_id  = $fetch_content['tutor_id'];
 
       if($select_content->rowCount() > 0){
 
          $insert_comment = $conn->prepare("INSERT INTO `comments`(id, content_id, user_id, tutor_id, comment, parent_id) VALUES(?,?,?,?,?,?)");
-         $insert_comment->execute([$id, $content_id, $user_id, null, $comment_box, null]);
+         $insert_comment->execute([$id, $content_id, $user_id, $tutor_id, $comment_box, null]);
          $message[] = 'New comment added!';
 
       }else{
@@ -143,7 +141,6 @@ if(isset($_POST['edit_comment'])){
         justify-content: center;
         align-items: center;
         height: 80vh;
-
     }
 
     .watch-video p {
@@ -154,7 +151,6 @@ if(isset($_POST['edit_comment'])){
         margin: 10px 0 10px 0;
         padding: 10px;
         text-align: center;
-
     }
 
     .watch-video span {
@@ -213,30 +209,31 @@ if(isset($_POST['edit_comment'])){
                echo '<p>Unsupported file type.</p>';
             }
    ?>
-
-        <?php
+        <<<<<<< HEAD <?php
+=======
+    <?php
+>>>>>>> b7a182b1f8a0196a8606fcd6c9b98429e1fef219
          }
       } else {
          echo '<p class="empty">No videos added yet!</p>';
       }
-   ?>
-    </section>
-    <!-- Watch Video section ends -->
+   ?> </section>
+            <!-- Watch Video section ends -->
 
-    <!-- Comments section starts -->
-    <section class="comments">
-        <h1 class="heading">Add a Comment</h1>
-        <form action="" method="post" class="add-comment">
-            <input type="hidden" name="content_id" value="<?= $get_id; ?>">
-            <textarea name="comment_box" required placeholder="Write your comment..." maxlength="1000" cols="30"
-                rows="10"></textarea>
-            <input type="submit" value="Add Comment" name="add_comment" class="inline-btn">
-        </form>
+            <!-- Comments section starts -->
+            <section class="comments">
+                <h1 class="heading">Add a Comment</h1>
+                <form action="" method="post" class="add-comment">
+                    <input type="hidden" name="content_id" value="<?= $get_id; ?>">
+                    <textarea name="comment_box" required placeholder="Write your comment..." maxlength="1000" cols="30"
+                        rows="10"></textarea>
+                    <input type="submit" value="Add Comment" name="add_comment" class="inline-btn">
+                </form>
 
-        <h1 class="heading">User Comments</h1>
+                <h1 class="heading">User Comments</h1>
 
-        <div class="show-comments">
-            <?php
+                <div class="show-comments">
+                    <?php
          $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE content_id = ? and user_id is not null");
          $select_comments->execute([$get_id]);
          if($select_comments->rowCount() > 0){
@@ -245,31 +242,31 @@ if(isset($_POST['edit_comment'])){
                $select_commentor->execute([$fetch_comment['user_id']]);
                $fetch_commentor = $select_commentor->fetch(PDO::FETCH_ASSOC);
       ?>
-            <div class="box" style="<?php if($fetch_comment['user_id'] == $user_id){echo 'order:-1;';} ?>">
-                <div class="user">
-                    <img src="uploaded_files/<?= $fetch_commentor['image']; ?>" alt="">
-                    <div>
-                        <h3><?= $fetch_commentor['name']; ?></h3>
-                        <span><?= $fetch_comment['date']; ?></span>
-                    </div>
-                </div>
-                <p class="text"><?= $fetch_comment['comment']; ?></p>
-                <?php
+                    <div class="comment" style="<?php if($fetch_comment['user_id'] == $user_id){echo 'order:-1;';} ?>">
+                        <div class="user">
+                            <img src="uploaded_files/<?= $fetch_commentor['image']; ?>" alt="">
+                            <div>
+                                <h3><?= $fetch_commentor['name']; ?></h3>
+                                <span><?= $fetch_comment['date']; ?></span>
+                            </div>
+                        </div>
+                        <p class="text"><?= $fetch_comment['comment']; ?></p>
+                        <?php
             if($fetch_comment['user_id'] == $user_id){ 
          ?>
-                <form action="" method="post" class="flex-btn">
-                    <input type="hidden" name="comment_id" value="<?= $fetch_comment['id']; ?>">
-                    <button type="submit" name="edit_comment" class="inline-option-btn">Edit Comment</button>
-                    <button type="submit" name="delete_comment" class="inline-delete-btn"
-                        onclick="return confirm('Delete this comment?');">Delete Comment</button>
-                </form>
-                <?php
+                        <form action="" method="post" class="flex-btn">
+                            <input type="hidden" name="comment_id" value="<?= $fetch_comment['id']; ?>">
+                            <button type="submit" name="edit_comment" class="inline-option-btn">Edit Comment</button>
+                            <button type="submit" name="delete_comment" class="inline-delete-btn"
+                                onclick="return confirm('Delete this comment?');">Delete Comment</button>
+                        </form>
+                        <?php
             }
          ?>
-
-                <!-- Display existing replies for each comment -->
-                <div class="replies">
-                    <?php
+                        <<<<<<< HEAD=======>>>>>>> b7a182b1f8a0196a8606fcd6c9b98429e1fef219
+                            <!-- Display existing replies for each comment -->
+                            <div class="replies">
+                                <?php
                // Retrieve and display replies for the current comment
                $select_replies = $conn->prepare("SELECT * FROM `comments` WHERE parent_id = ? order by date desc");
                $select_replies->execute([$fetch_comment['id']]);
@@ -277,29 +274,39 @@ if(isset($_POST['edit_comment'])){
                   while($fetch_reply = $select_replies->fetch(PDO::FETCH_ASSOC)){
                      // Display each reply
             ?>
-                    <div class="reply">
-                        <span><?= $fetch_reply['date']; ?></span>
-                        <p><?= $fetch_reply['comment']; ?></p>
-                    </div>
-                    <?php
+                                <div class="comment">
+                                    <div class="user">
+                                        <!-- Assuming you have user data for the replier -->
+                                        <img src="path_to_user_image" alt="User Image">
+                                        <div>
+                                            <h3>User Name</h3>
+                                            <span><?= $fetch_reply['date']; ?></span>
+                                        </div>
+                                    </div>
+                                    <p class="text"><?= $fetch_reply['comment']; ?></p>
+                                    <!-- You can add edit/delete buttons for replies if needed -->
+                                </div>
+                                <?php
                   }
                } else {
                   echo '<p class="empty">No replies yet!</p>';
                }
             ?>
-                </div>
-
-                <?php
+                            </div>
+                            <<<<<<< HEAD <?php
+=======
+            </div>
+            <?php
+>>>>>>> b7a182b1f8a0196a8606fcd6c9b98429e1fef219
             }
          }else{
             echo '<p class="empty">No comments added yet!</p>';
          }
-      ?>
-            </div>
-    </section>
-    <!-- Comments section ends -->
+      ?> </div>
+            </section>
+            <!-- Comments section ends -->
 
-    <script src="js/script.js"></script>
+            <script src="js/script.js"></script>
 
 </body>
 

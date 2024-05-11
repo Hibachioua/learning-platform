@@ -535,6 +535,15 @@ section {
   background-color: var(--light-bg);
 }
 
+.form-container form .box-reply {
+  width: 100%;
+  border-radius: 2rem;
+  margin: 1rem 0;
+  font-size: 2.4rem;
+  color: #ffffff;
+  padding: 1.4rem;
+  background-color: var(--light-bg);
+}
 .form-container .flex {
   display: flex;
   flex-direction: row;
@@ -1167,6 +1176,15 @@ p{
   width: 2rem;
   background-color: var(--light-bg);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.add-comment textarea {
+  width: 100%; 
+  padding: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  box-sizing: border-box; 
+  resize: vertical; 
+  font-size: 16px; 
 }
 
 

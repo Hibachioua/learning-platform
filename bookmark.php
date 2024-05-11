@@ -37,7 +37,8 @@ if(isset($_COOKIE['user_id'])){
 
     <section class="courses">
 
-        <h1 class="heading">bookmarked playlists</h1>
+
+        <h1 class="heading">Playlists subscribed to</h1>
 
         <div class="box-container">
 
@@ -72,11 +73,11 @@ if(isset($_COOKIE['user_id'])){
             <?php
                }
             }else{
-               echo '<p class="empty">no courses found!</p>';
+               echo '<p class="empty">No courses found!</p>';
             }
          }
       }else{
-         echo '<p class="empty">nothing bookmarked yet!</p>';
+         echo '<p class="empty">No subscription yet!</p>';
       }
       ?>
 
