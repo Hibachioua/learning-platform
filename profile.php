@@ -8,9 +8,6 @@ if(isset($_COOKIE['user_id'])){
     header('location:login.php');
 }
 
-$select_likes = $conn->prepare("SELECT * FROM `likes` WHERE user_id = ?");
-$select_likes->execute([$user_id]);
-$total_likes = $select_likes->rowCount();
 
 $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE user_id = ?");
 $select_comments->execute([$user_id]);
@@ -97,14 +94,6 @@ if($request_status) {
 
          <div class="box">
             <div class="flex">
-               <i class="fas fa-heart"></i>
-               <div>
-                  <h3><?= $total_likes; ?></h3>
-                  <span>Liked Tutorials</span>
-               </div>
-            </div>
-            <a href="#" class="inline-btn">View Liked</a>
-         </div>
 
          <div class="box">
             <div class="flex">

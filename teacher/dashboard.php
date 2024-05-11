@@ -25,9 +25,6 @@ $select_playlists = $conn->prepare("SELECT * FROM `playlist` WHERE tutor_id = ?"
 $select_playlists->execute([$tutor_id]);
 $total_playlists = $select_playlists->rowCount();
 
-$select_likes = $conn->prepare("SELECT * FROM `likes` WHERE tutor_id = ?");
-$select_likes->execute([$tutor_id]);
-$total_likes = $select_likes->rowCount();
 
 $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE tutor_id = ?");
 $select_comments->execute([$tutor_id]);
@@ -56,7 +53,6 @@ $total_comments = $select_comments->rowCount();
                 <tr>
                     <th class="table-content">Total Contents</th>
                     <th>Total Playlists</th>
-                    <th>Total Likes</th>
                     <th>Total Comments</th>
                 </tr>
                 </thead>
@@ -64,7 +60,6 @@ $total_comments = $select_comments->rowCount();
                     <tr>
                         <td><?= $total_contents; ?></td>
                         <td><?= $total_playlists; ?></td>
-                        <td><?= $total_likes; ?></td>
                         <td><?= $total_comments; ?></td>
                     </tr>
                 </tbody>
