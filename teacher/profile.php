@@ -30,8 +30,6 @@ if(isset($_POST['delete_teacher'])) {
     $insert_request->execute([$tutor_id]);
     
     $message = "Your deletion request has been sent to the administrator for review";
-    header('Location: ' . $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING']);
-    exit();
 }
 
 ?>

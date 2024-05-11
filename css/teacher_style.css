@@ -544,7 +544,10 @@ section {
 .form-container .flex .col {
   flex: 1 1 25rem;
 }
-
+p{
+  color: #888;
+  font-size: 17px;
+}
 .dashboard {
   background: radial-gradient(
       39.56% 48.29% at 20% 115.78%,
