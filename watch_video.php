@@ -86,25 +86,9 @@ if(isset($_POST['delete_comment'])){
    }else{
       $message[] = 'Comment not found or you are not authorized to delete it!';
    }
-
 }
 
-
-   $edit_id = $_POST['comment_id'];
-   $edit_id = filter_var($edit_id, FILTER_SANITIZE_STRING);
-
-   $select_comment = $conn->prepare("SELECT * FROM `comments` WHERE id = ? AND user_id = ?");
-   $select_comment->execute([$edit_id, $user_id]);
-   $fetch_comment = $select_comment->fetch(PDO::FETCH_ASSOC);
-
-   if($select_comment->rowCount() > 0){
-      $message[] = 'Edit your comment here!';
-   }else{
-      $message[] = 'Comment not found or you are not authorized to edit it!';
-   }
-
-
-
+   
 ?>
 
 <!DOCTYPE html>
