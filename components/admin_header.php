@@ -83,9 +83,9 @@ if(isset($message)){
    </div>
 
    <nav class="navbar">
-      <a href="dashboard.php"><i class="fas fa-home"></i><span>home</span></a>
-      <a href="requests.php"><i class="fa-solid fa-bell"></i><span>requests</span></i></a>
-      <a href="../components/teacher_logout.php" onclick="return confirm('logout from this website?');"><i class="fas fa-right-from-bracket"></i><span>logout</span></a>
+      <a href="dashboard.php"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="requests.php"><i class="fa-solid fa-bell"></i><span>Requests</span></i></a>
+      <a href="../components/teacher_logout.php" onclick="return confirm('logout from this website?');"><i class="fas fa-right-from-bracket"></i><span>Logout</span></a>
    </nav>
 
 </div>
