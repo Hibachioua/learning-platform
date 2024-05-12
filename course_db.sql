@@ -123,19 +123,19 @@ INSERT INTO `admin` (`id`, `name`, `email`, `password`, `image`) VALUES
 (1, 'Admin', 'chioua.hiba1@gmail.com', 'ab28cfc74820d6462adabc4f2c4221b803a83507', 'cDM2EJ51so4lEcXg3O0M.avif');
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `image`) VALUES
-(1, 'Ahmed Jaber', 'ahmed.jaber@gmail.com', 'c38ae1eb311400460911a30ad83ae2513ba00cad', '54O4Il1xiSkAPQcDzdDa.jpg');
+(1, 'Ahmed Jaber', 'ahmed.jaber@gmail.com', 'c38ae1eb311400460911a30ad83ae2513ba00cad', 'ahmedjaber.jpg');
 
 INSERT INTO `tutors` (`id`, `name`, `email`, `password`, `image`) VALUES
-(1, 'Khalid Manssouri', 'khalid@gmail.com', '188a381a68579ab6419f6d0d1be2d01eb3158b32', 'RzfxlTJNEcjGMoWFdaFJ.jpg');
+(1, 'Khalid Manssouri', 'khalid@gmail.com', '188a381a68579ab6419f6d0d1be2d01eb3158b32', 'teacher.jpg');
 
 
 INSERT INTO `playlist` (`id`, `tutor_id`, `title`, `description`, `thumb`, `date`, `status`) VALUES
-('1', '1', 'C Avancé', 'Dans ce cours, vous serez capables de comprendre tous ce qui est en relation avec le langage de programmation C', 'cJz0NyuulJnFrzCiVzAE.png', '2024-05-11', 'active');
+('X4fKXwWjtOO7rV3iZ6Om', '1', 'C Avancé', 'Dans ce cours, vous serez capables de comprendre tous ce qui est en relation avec le langage de programmation C', 'cJz0NyuulJnFrzCiVzAE.png', '2024-05-11', 'active');
 
 
 INSERT INTO `content` (`id`, `tutor_id`, `playlist_id`, `title`, `description`, `prerequisites`, `keywords`, `video`, `thumb`, `date`, `status`) VALUES
-('MNTBzCBOoGfP7ii5HRoG', '1', '1', 'Chapitre 1: Les pointeurs', 'Après ce cours,vous devez être capables de travailler avec les pointeurs.', 'Vous devez avoir des notions sur les tableaux.', 'C avancé,Tableaux,Pointeurs', 'gZ24YPQaQjtbjlHBJNL9.pdf', 'ScrZH8BgX3om5nNOCLPf.png', '2024-05-11', 'active'),
-('XJrs1cZCXMSyEgLMMY5y', '1', '1', 'Chapitre 2:  Les structures ', 'Ce cours est pour apprendre tous ce qui est en relation avec les structures', 'Vous devez avoir des notions sur les variables et leurs types', 'C avancé,Structures,Pointeurs,Variables', 'eUQT5OMWW0Da883xkOEB.pdf', 'ZWSf5RGLkwsHPNBcUBoF.png', '2024-05-11', 'active');
+('MNTBzCBOoGfP7ii5HRoG', '1', 'X4fKXwWjtOO7rV3iZ6Om', 'Chapitre 1: Les pointeurs', 'Après ce cours,vous devez être capables de travailler avec les pointeurs.', 'Vous devez avoir des notions sur les tableaux.', 'C avancé,Tableaux,Pointeurs', 'PvIdyaLxSvxE2GG0GjS3.pdf', 'Yh0hRQdXuksPSXUnNMl9.png', '2024-05-11', 'active'),
+('XJrs1cZCXMSyEgLMMY5y', '1', 'X4fKXwWjtOO7rV3iZ6Om', 'Chapitre 2:  Les structures ', 'Ce cours est pour apprendre tous ce qui est en relation avec les structures', 'Vous devez avoir des notions sur les variables et leurs types', 'C avancé,Structures,Pointeurs,Variables', 'eUQT5OMWW0Da883xkOEB.pdf', 'ZWSf5RGLkwsHPNBcUBoF.png', '2024-05-11', 'active');
 
 
 COMMIT;
