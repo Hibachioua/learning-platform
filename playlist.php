@@ -1,57 +1,47 @@
 <?php
 
-// Inclure le fichier de connexion à la base de données
 include 'components/connect.php';
 
-// Vérifier si l'identifiant de l'utilisateur est défini dans les cookies
 if(isset($_COOKIE['user_id'])){
    $user_id = $_COOKIE['user_id'];
 }else{
    $user_id = '';
 }
 
-// Vérifier si l'identifiant de la playlist à récupérer est défini dans les paramètres GET
 if(isset($_GET['get_id'])){
    $get_id = $_GET['get_id'];
 }else{
    $get_id = '';
-   // Rediriger vers la page d'accueil si aucun identifiant de playlist n'est spécifié
    header('location:home.php');
 }
 
-// Traiter la soumission du formulaire pour enregistrer la playlist
 if(isset($_POST['save_list'])){
 
-   // Vérifier si l'utilisateur est connecté
    if($user_id != ''){
       
-      // Récupérer et filtrer l'identifiant de la playlist à enregistrer
       $list_id = $_POST['list_id'];
       $list_id = filter_var($list_id, FILTER_SANITIZE_STRING);
 
-      // Vérifier si la playlist est déjà enregistrée dans les favoris de l'utilisateur
       $select_list = $conn->prepare("SELECT * FROM `bookmark` WHERE user_id = ? AND playlist_id = ?");
       $select_list->execute([$user_id, $list_id]);
 
-      // Si la playlist est déjà enregistrée, la supprimer des favoris de l'utilisateur
       if($select_list->rowCount() > 0){
          $remove_bookmark = $conn->prepare("DELETE FROM `bookmark` WHERE user_id = ? AND playlist_id = ?");
          $remove_bookmark->execute([$user_id, $list_id]);
-         $message[] = 'Playlist removed!';
-      }else{ // Sinon, enregistrer la playlist dans les favoris de l'utilisateur
+         $message[] = 'playlist removed!';
+      }else{
          $insert_bookmark = $conn->prepare("INSERT INTO `bookmark`(user_id, playlist_id) VALUES(?,?)");
          $insert_bookmark->execute([$user_id, $list_id]);
-         $message[] = 'Playlist saved!';
+         $message[] = 'playlist saved!';
       }
 
-   }else{ // Si l'utilisateur n'est pas connecté, afficher un message d'erreur
-      $message[] = 'Please login first!';
+   }else{
+      $message[] = 'please login first!';
    }
 
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,8 +52,10 @@ if(isset($_POST['save_list'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>playlist</title>
 
+    <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
+    <!-- custom css file link  -->
     <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -107,18 +99,18 @@ if(isset($_POST['save_list'])){
                     <?php
                if($select_bookmark->rowCount() > 0){
             ?>
-                    <button type="submit" name="save_list"><i class="fas fa-bookmark"></i><span>Saved</span></button>
+                    <button type="submit" name="save_list"><i class="fas fa-bookmark"></i><span>saved</span></button>
                     <?php
                }else{
             ?>
-                    <button type="submit" name="save_list"><i class="far fa-bookmark"></i><span>Save
+                    <button type="submit" name="save_list"><i class="far fa-bookmark"></i><span>save
                             playlist</span></button>
                     <?php
                }
             ?>
                 </form>
                 <div class="thumb">
-                    <span><?= $total_videos; ?> Courses</span>
+                    <span><?= $total_videos; ?> videos</span>
                     <img src="uploaded_files/<?= $fetch_playlist['thumb']; ?>" alt="">
                 </div>
             </div>
@@ -128,7 +120,7 @@ if(isset($_POST['save_list'])){
                     <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
                     <div>
                         <h3><?= $fetch_tutor['name']; ?></h3>
-                        <span>Teacher</span>
+                        <span><?= $fetch_tutor['profession']; ?></span>
                     </div>
                 </div>
                 <div class="details">
@@ -140,7 +132,7 @@ if(isset($_POST['save_list'])){
 
             <?php
          }else{
-            echo '<p class="empty">This playlist was not found!</p>';
+            echo '<p class="empty">this playlist was not found!</p>';
          }  
       ?>
 
@@ -154,7 +146,7 @@ if(isset($_POST['save_list'])){
 
     <section class="videos-container">
 
-        <h1 class="heading">Playlist courses</h1>
+        <h1 class="heading">playlist videos</h1>
 
         <div class="box-container">
 

@@ -109,7 +109,7 @@ section{
 
 .btn,
 .inline-btn{
-   background-color: var(--purple);
+   background-color: var(--main-color);
 }
 
 .option-btn,
@@ -140,7 +140,7 @@ section{
 .message{
    position: sticky;
    top:0;
-   background-color: var(--main-color);
+   background-color: var(--light-bg);
    padding:2rem;
    display: flex;
    align-items: center;
@@ -167,56 +167,6 @@ section{
    cursor: pointer;
    transition: .2s linear;
 }
-
-.suppression {
-  font-size: 30px solid;
-  margin-left: 15px;
-  color: #aaa;
-
-}
-
-
-.attente{
-  font-size: 25px;
-  color: #dddddd;
-  margin-left: 30px;
-}
-
-li{
-  font-size:25px;
-  color: whitesmoke;
-  padding-top: 30px;
-  margin-left: 30px;
-}
-
- .accept{
-  border: 1px solid black;
-  width: 100px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 20px;
-  border-radius: 10px;
-  height: 50px;
-  color: whitesmoke;
-  margin-left: 20px;
-  background-color:  #a393eb;
-}
-.reject{
-  border: 1px solid black;
-  width: 100px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 20px;
-  border-radius: 10px;
-  height: 50px;
-  color: whitesmoke;
-  margin-left: 20px;
-  background-color:  #5e63b6;
-}
-.accept:hover,
-.reject:hover{
-  background-color: rgb(255,255,255,.2);
-}
-
-
 
 .message i:hover{
    transform: rotate(90deg);
@@ -263,6 +213,33 @@ li{
    font-weight: bolder;
 }
 
+.header .flex .search-form{
+   width: 50rem;
+   border-radius: 25px;
+   display: flex;
+   align-items: center;
+   gap: 2rem;
+   padding: 1.5rem 2rem;
+   background-color: var(--light-bg);
+}
+
+.header .flex .search-form input{
+   width: 100%;
+   background:none;
+   font-size: 2rem;
+   color: var(--black);
+}
+
+.header .flex .search-form button{
+   font-size: 2rem;
+   color: var(--black);
+   cursor: pointer;
+   background: none;
+}
+
+.header .flex .search-form button:hover{
+   color: var(--purple);
+}
 
 .header .flex .icons div{
    font-size: 2rem;
@@ -282,6 +259,9 @@ li{
    color:var(--white);
 }
 
+#search-btn{
+   display: none;
+}
 
 .header .flex .profile{
    position: absolute;
@@ -420,7 +400,7 @@ li{
 
 .form-container form{
    background-color: var(--white);
-   border-radius: 15px;
+   border-radius: .5rem;
    padding: 2rem;
 }
 
@@ -428,6 +408,9 @@ li{
    width: 50rem;
 }
 
+.form-container .register{
+   width: 80rem;
+}
 
 .form-container form h3{
    text-align: center;
@@ -464,7 +447,7 @@ li{
 
 .form-container form .box{
    width: 100%;
-   border-radius: 15px;
+   border-radius: .5rem;
    margin: 1rem 0;
    font-size: 1.8rem;
    color: var(--black);
@@ -967,7 +950,38 @@ li{
 
 }
 
+@media (max-width:768px){
 
+   #search-btn{
+      display: inline-block;
+   }
+
+   .header .flex .search-form{
+      position: absolute;
+      top:99%; left: 0; right: 0;
+      width: auto;
+      border-top: var(--border);     
+      border-bottom: var(--border);
+      background-color: var(--purple);
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+      transition: .2s linear;
+   }
+
+   .header .flex .search-form.active{
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+   }
+
+   .form-container .flex{
+      display: flex;
+      gap: 0;
+      flex-flow: column;
+   }
+
+   .view-content .container .video{
+      height: 30rem;
+   }
+
+}
 #respond{
 border: 1px solid black;
 color: white;
