@@ -1,7 +1,15 @@
 <?php
+include 'components/connect.php';
+
+if(isset($_COOKIE['user_id'])){
+   $user_id = $_COOKIE['user_id'];
+}else{
+   $user_id = '';
+}
 
 // Vérifier si le formulaire d'inscription est soumis
 if(isset($_POST['submit'])){
+
 
    // Générer un identifiant unique
    $id = unique_id();
