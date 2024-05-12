@@ -120,7 +120,7 @@ if(isset($_POST['save_list'])){
                     <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
                     <div>
                         <h3><?= $fetch_tutor['name']; ?></h3>
-                        <span><?= $fetch_tutor['profession']; ?></span>
+                        <span>Teacher</span>
                     </div>
                 </div>
                 <div class="details">
