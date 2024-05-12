@@ -35,10 +35,7 @@ if(isset($_COOKIE['user_id'])){
 
     <section class="courses">
 
-        <<<<<<< HEAD <h1 class="heading">all courses</h1>
-            =======
             <h1 class="heading">All courses</h1>
-            >>>>>>> b7a182b1f8a0196a8606fcd6c9b98429e1fef219
 
             <div class="box-container">
 
@@ -84,15 +81,6 @@ if(isset($_COOKIE['user_id'])){
 
 
     </section>
-
-
-
-
-
-
-
-
-
 
 
 
