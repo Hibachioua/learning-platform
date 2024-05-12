@@ -52,21 +52,21 @@ if(isset($_POST['add_comment'])){
       $select_content = $conn->prepare("SELECT * FROM `content` WHERE id = ? LIMIT 1");
       $select_content->execute([$content_id]);
       $fetch_content = $select_content->fetch(PDO::FETCH_ASSOC);
-
-      $tutor_id = $fetch_content['tutor_id'];
+      $tutor_id  = $fetch_content['tutor_id'];
 
       if($select_content->rowCount() > 0){
 
-         $insert_comment = $conn->prepare("INSERT INTO `comments`(id, content_id, user_id, tutor_id, comment) VALUES(?,?,?,?,?)");
-         $insert_comment->execute([$id, $content_id, $user_id, $tutor_id, $comment_box]);
-         $message[] = 'new comment added!';
+         $insert_comment = $conn->prepare("INSERT INTO `comments`(id, content_id, user_id, tutor_id, comment, parent_id) VALUES(?,?,?,?,?,?)");
+         $insert_comment->execute([$id, $content_id, $user_id, $tutor_id, $comment_box, null]);
+         $message[] = 'New comment added!';
 
       }else{
-         $message[] = 'something went wrong!';
+         $message[] = 'Something went wrong!';
       }
-
+        header('Location: ' . $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING']);
+        exit();
    }else{
-      $message[] = 'please login first!';
+      $message[] = 'Please login first!';
    }
 
 }
@@ -82,9 +82,9 @@ if(isset($_POST['delete_comment'])){
    if($verify_comment->rowCount() > 0){
       $delete_comment = $conn->prepare("DELETE FROM `comments` WHERE id = ?");
       $delete_comment->execute([$delete_id]);
-      $message[] = 'comment deleted successfully!';
+      $message[] = 'Comment deleted successfully!';
    }else{
-      $message[] = 'comment not found or you are not authorized to delete it!';
+      $message[] = 'Comment not found or you are not authorized to delete it!';
    }
 
 }
@@ -98,7 +98,6 @@ if(isset($_POST['delete_comment'])){
    $fetch_comment = $select_comment->fetch(PDO::FETCH_ASSOC);
 
    if($select_comment->rowCount() > 0){
-      // Here you can include HTML and PHP code for editing the comment, and update it accordingly
       $message[] = 'Edit your comment here!';
    }else{
       $message[] = 'Comment not found or you are not authorized to edit it!';
@@ -115,7 +114,7 @@ if(isset($_POST['delete_comment'])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watch Video</title>
+    <title>See course</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -123,18 +122,14 @@ if(isset($_POST['delete_comment'])){
         rel="stylesheet">
     <!-- Font Awesome CDN link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <!-- Custom CSS file link -->
     <link rel="stylesheet" href="css/style.css">
     <style>
-    /* CSS for enlarging and centering the file viewer */
-
     .watch-video {
         display: flex;
         flex-direction: column-reverse;
         justify-content: center;
         align-items: center;
         height: 80vh;
-        /* Adjust the height as needed */
     }
 
     .watch-video p {
@@ -145,7 +140,6 @@ if(isset($_POST['delete_comment'])){
         margin: 10px 0 10px 0;
         padding: 10px;
         text-align: center;
-
     }
 
     .watch-video span {
@@ -154,7 +148,6 @@ if(isset($_POST['delete_comment'])){
         text-transform: capitalize;
     }
 
-    /* Adjustments for the file viewer */
     .video,
     .audio {
         max-width: 100%;
@@ -183,7 +176,6 @@ if(isset($_POST['delete_comment'])){
 
             // Display prerequisites
             echo "<p> <span>Prerequisites:</span> {$fetch_content['prerequisites']}</p>";
-
             $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ? LIMIT 1");
             $select_tutor->execute([$fetch_content['tutor_id']]);
             $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
@@ -191,23 +183,21 @@ if(isset($_POST['delete_comment'])){
             // Get file extension
             $file_extension = getFileExtension($fetch_content['video']);
 
-            // Check file extension and display appropriate viewer
+            
             if ($file_extension === 'pdf') {
-               // Display PDF viewer
+               
                echo '<embed src="uploaded_files/' . $fetch_content['video'] . '" type="application/pdf" class="pdf-viewer">';
             } elseif (in_array($file_extension, ['mp4', 'webm', 'ogg'])) {
-               // Display video player for supported video formats
+              
                echo '<video src="uploaded_files/' . $fetch_content['video'] . '" class="video" poster="uploaded_files/' . $fetch_content['thumb'] . '" controls autoplay></video>';
             } elseif ($file_extension === 'mp3') {
-               // Display audio player for MP3 files
+               
                echo '<audio controls class="audio"><source src="uploaded_files/' . $fetch_content['video'] . '" type="audio/mpeg">Your browser does not support the audio element.</audio>';
             } else {
-               // Display an error message for unsupported file types
+               
                echo '<p>Unsupported file type.</p>';
             }
    ?>
-        <!-- Remaining HTML for displaying other content details -->
-        <!-- Add the like, comment functionality, tutor info, etc. -->
         <?php
          }
       } else {
@@ -231,7 +221,7 @@ if(isset($_POST['delete_comment'])){
 
         <div class="show-comments">
             <?php
-         $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE content_id = ?");
+         $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE content_id = ? and user_id is not null");
          $select_comments->execute([$get_id]);
          if($select_comments->rowCount() > 0){
             while($fetch_comment = $select_comments->fetch(PDO::FETCH_ASSOC)){   
@@ -239,7 +229,7 @@ if(isset($_POST['delete_comment'])){
                $select_commentor->execute([$fetch_comment['user_id']]);
                $fetch_commentor = $select_commentor->fetch(PDO::FETCH_ASSOC);
       ?>
-            <div class="box" style="<?php if($fetch_comment['user_id'] == $user_id){echo 'order:-1;';} ?>">
+            <div class="comment" style="<?php if($fetch_comment['user_id'] == $user_id){echo 'order:-1;';} ?>">
                 <div class="user">
                     <img src="uploaded_files/<?= $fetch_commentor['image']; ?>" alt="">
                     <div>
@@ -260,13 +250,6 @@ if(isset($_POST['delete_comment'])){
                 <?php
             }
          ?>
-                <!-- Add a reply form for each comment -->
-                <form action="" method="post" class="add-reply">
-                    <input type="hidden" name="comment_id" value="<?= $fetch_comment['id']; ?>">
-                    <textarea name="reply_box" required placeholder="Write your reply..." maxlength="100000" cols="305"
-                        rows="58"></textarea>
-                    <input type="submit" value="Add Reply" name="add_reply" class="inline-btn">
-                </form>
                 <!-- Display existing replies for each comment -->
                 <div class="replies">
                     <?php

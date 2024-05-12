@@ -35,50 +35,74 @@ if(isset($_COOKIE['user_id'])){
 
     <section class="courses">
 
-        <h1 class="heading">Search Results</h1>
+        <h1 class="heading">Search results</h1>
 
         <div class="box-container">
 
             <?php
-            if(isset($_POST['search_course']) or isset($_POST['search_course_btn'])){
-                $search_course = $_POST['search_course'];
-                $select_courses = $conn->prepare("SELECT * FROM `content` WHERE FIND_IN_SET(?, keywords) AND status = ?");
-                $select_courses->execute([$search_course, 'active']);
-                if($select_courses->rowCount() > 0){
-                    while($fetch_course = $select_courses->fetch(PDO::FETCH_ASSOC)){
-                        $course_id = $fetch_course['id'];
+         // Vérifie si la recherche de cours est soumise
+         if(isset($_POST['search_course']) or isset($_POST['search_course_btn'])){
+            // Récupère le terme de recherche et filtre
+            $search_course = $_POST['search_course'];
+            // Sélectionne les cours correspondants au terme de recherche
+            $select_courses = $conn->prepare("SELECT * FROM `playlist` WHERE title LIKE '%{$search_course}%' AND status = ?");
+            $select_courses->execute(['active']);
+            // Si des cours sont trouvés, les affiche
+            if($select_courses->rowCount() > 0){
+               while($fetch_course = $select_courses->fetch(PDO::FETCH_ASSOC)){
+                  $course_id = $fetch_course['id'];
 
-                        $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ?");
-                        $select_tutor->execute([$fetch_course['tutor_id']]);
-                        $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
-            ?>
+                  // Récupère les informations du tuteur du cours
+                  $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ?");
+                  $select_tutor->execute([$fetch_course['tutor_id']]);
+                  $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
+      ?>
             <div class="box">
                 <div class="tutor">
+                    <!-- Affiche l'image du tuteur -->
                     <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
                     <div>
+                        <!-- Affiche le nom du tuteur -->
                         <h3><?= $fetch_tutor['name']; ?></h3>
+                        <!-- Affiche la date du cours -->
                         <span><?= $fetch_course['date']; ?></span>
                     </div>
                 </div>
+                <!-- Affiche l'image miniature du cours -->
                 <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
+                <!-- Affiche le titre du cours -->
                 <h3 class="title"><?= $fetch_course['title']; ?></h3>
-                <a href="view_course.php?course_id=<?= $course_id; ?>" class="inline-btn">View Course</a>
+                <!-- Affiche le lien pour voir la playlist -->
+                <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
             </div>
             <?php
-                    }
-                }else{
-                    echo '<p class="empty">No courses found!</p>';
-                }
-            }else{
-                echo '<p class="empty">Please search something!</p>';
             }
-            ?>
+         }else{
+            // Affiche un message si aucun cours n'est trouvé
+            echo '<p class="empty">No courses found!</p>';
+         }
+      }else{
+         // Affiche un message si aucun terme de recherche n'est saisi
+         echo '<p class="empty">Please search something!</p>';
+      }
+      ?>
 
         </div>
+
 
     </section>
 
     <!-- courses section ends -->
+
+
+
+
+
+
+
+
+
+
 
     <!-- custom js file link  -->
     <script src="js/script.js"></script>

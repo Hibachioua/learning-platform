@@ -35,14 +35,14 @@ if(isset($_COOKIE['user_id'])){
 
     <section class="courses">
 
+        <<<<<<< HEAD <h1 class="heading">all courses</h1>
+            =======
+            <h1 class="heading">All courses</h1>
+            >>>>>>> b7a182b1f8a0196a8606fcd6c9b98429e1fef219
 
+            <div class="box-container">
 
-        <h1 class="heading">All courses</h1>
-
-
-        <div class="box-container">
-
-            <?php
+                <?php
          // Sélectionner tous les cours actifs par ordre décroissant de date
          $select_courses = $conn->prepare("SELECT * FROM `playlist` WHERE status = ? ORDER BY date DESC");
          $select_courses->execute(['active']);
@@ -57,22 +57,22 @@ if(isset($_COOKIE['user_id'])){
                $select_tutor->execute([$fetch_course['tutor_id']]);
                $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
       ?>
-            <div class="box">
-                <div class="tutor">
-                    <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
-                    <div>
-                        <h3><?= $fetch_tutor['name']; ?></h3>
-                        <span><?= $fetch_course['date']; ?></span>
+                <div class="box">
+                    <div class="tutor">
+                        <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
+                        <div>
+                            <h3><?= $fetch_tutor['name']; ?></h3>
+                            <span><?= $fetch_course['date']; ?></span>
+                        </div>
                     </div>
+                    <!-- Afficher l'image miniature du cours -->
+                    <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
+                    <!-- Afficher le titre du cours -->
+                    <h3 class="title"><?= $fetch_course['title']; ?></h3>
+                    <!-- Lien pour afficher la playlist complète -->
+                    <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
                 </div>
-                <!-- Afficher l'image miniature du cours -->
-                <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
-                <!-- Afficher le titre du cours -->
-                <h3 class="title"><?= $fetch_course['title']; ?></h3>
-                <!-- Lien pour afficher la playlist complète -->
-                <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
-            </div>
-            <?php
+                <?php
          }
       }else{
          // Afficher un message si aucun cours n'est ajouté
@@ -80,7 +80,7 @@ if(isset($_COOKIE['user_id'])){
       }
       ?>
 
-        </div>
+            </div>
 
 
     </section>
