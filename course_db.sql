@@ -73,21 +73,23 @@ INSERT INTO `content` (`id`, `tutor_id`, `playlist_id`, `title`, `description`, 
 
 
 CREATE TABLE `deletion_requests` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(20) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `admin_id` int(11) DEFAULT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-
 CREATE TABLE `deletion_tutors` (
-  `request_id` int(11) NOT NULL,
-  `tutor_id` int(11) NOT NULL,
+  `request_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tutor_id` VARCHAR(20) NOT NULL,
   `tutor_name` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `admin_id` int(11) DEFAULT NULL
+  `admin_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`request_id`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 

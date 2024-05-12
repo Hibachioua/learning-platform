@@ -22,8 +22,17 @@ if (isset($_POST['submit'])) {
     $title = filter_var($title, FILTER_SANITIZE_STRING); // Sanitize title
     $description = $_POST['description'];
     $description = filter_var($description, FILTER_SANITIZE_STRING); // Sanitize description
-    $playlist = $_POST['playlist'];
-    $playlist = filter_var($playlist, FILTER_SANITIZE_STRING); // Sanitize playlist
+    $playlist = ''; // Initialize playlist variable
+
+    // Check if the 'playlist' key exists in the $_POST array
+    if (isset($_POST['playlist'])) {
+        $playlist = $_POST['playlist'];
+    } else {
+        // Handle the case when $_POST['playlist'] is not set
+        // For example, set a default value or display an error message
+        $message[] = 'Playlist is not selected.';
+    }
+
     $prerequisites = $_POST['prerequisites']; // Retrieve prerequisites
 
     // New variable to store keywords
@@ -66,12 +75,12 @@ if (isset($_POST['submit'])) {
     $video_uploaded = move_uploaded_file($video_tmp_name, $video_folder);
 
     // Check required fields and insert data into the database
-    if ($status !== '' && $title !== '') {
+    if ($status !== '' && $title !== '' && $playlist !== '') {
         $add_content = $conn->prepare("INSERT INTO `content`(id, tutor_id, playlist_id, title, description, video, thumb, status, prerequisites, keywords) VALUES(?,?,?,?,?,?,?,?,?,?)");
         $add_content->execute([$id, $tutor_id, $playlist, $title, $description, $rename_video, $rename_thumb, $status, $prerequisites, $keywords]);
         $message[] = 'New course uploaded!';
     } else {
-        $message[] = 'Please fill in the required fields: Video Status and Video Title.';
+        $message[] = 'Please fill in the required fields: Video Status, Video Title, and Playlist.';
     }
 }
 
