@@ -12,6 +12,7 @@
    }
 
    // Sélection de toutes les playlists associées à l'ID du tuteur
+   $request_id= unique_id();
    $select_playlists = $conn->prepare("SELECT * FROM `playlist` WHERE tutor_id = ?");
    $select_playlists->execute([$tutor_id]);
    $total_playlists = $select_playlists->rowCount(); // Comptage du nombre total de playlists
@@ -31,8 +32,8 @@
    // Vérification si le formulaire de suppression du compte tuteur a été soumis
    if(isset($_POST['delete_teacher'])) {
        // Insertion d'une nouvelle demande de suppression dans la base de données
-       $insert_request = $conn->prepare("INSERT INTO deletion_tutors (tutor_id) VALUES (?)");
-       $insert_request->execute([$tutor_id]);
+       $insert_request = $conn->prepare("INSERT INTO deletion_tutors (request_id, tutor_id) VALUES (?,?)");
+       $insert_request->execute([$request_id, $tutor_id]);
        
        // Message de confirmation de la demande de suppression
        $message = "Your deletion request has been sent to the administrator for review";

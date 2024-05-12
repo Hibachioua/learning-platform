@@ -65,7 +65,7 @@ if (isset($_POST['submit'])) {
         $add_content->execute([$id, $tutor_id, $playlist, $title, $description, $rename_video, $rename_thumb, $status, $prerequisites, $keywords]);
         $message[] = 'New course uploaded!';
     } else {
-        $message[] = 'Please fill in the required fields: Video Status and Video Title.';
+        $message[] = 'Please fill in the required fields: Video Status, Video Title, and Playlist.';
     }
 }
 

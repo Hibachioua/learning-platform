@@ -34,7 +34,7 @@ if(isset($_POST['delete_account'])) {
     $message = "Your deletion request has been sent to the administrator for review ❤️";
 }
 
-?>
+
 
 
 // Vérifier si la demande de suppression a été acceptée

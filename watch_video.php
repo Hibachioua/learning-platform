@@ -102,7 +102,6 @@ if(isset($_POST['delete_comment'])){
 
 }
 
-if(isset($_POST['edit_comment'])){
 
    $edit_id = $_POST['comment_id'];
    $edit_id = filter_var($edit_id, FILTER_SANITIZE_STRING);
@@ -118,7 +117,7 @@ if(isset($_POST['edit_comment'])){
       $message[] = 'Comment not found or you are not authorized to edit it!';
    }
 
-}
+
 
 ?>
 
@@ -274,7 +273,7 @@ if(isset($_POST['edit_comment'])){
          ?>
                 <form action="" method="post" class="flex-btn">
                     <input type="hidden" name="comment_id" value="<?= $fetch_comment['id']; ?>">
-                    <button type="submit" name="edit_comment" class="inline-option-btn">Edit Comment</button>
+
                     <button type="submit" name="delete_comment" class="inline-delete-btn"
                         onclick="return confirm('Delete this comment?');">Delete Comment</button>
                 </form>
