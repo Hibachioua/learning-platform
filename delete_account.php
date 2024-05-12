@@ -39,7 +39,7 @@ if(isset($_POST['delete_account'])) {
             $message = '';
         } else {
             // Si la demande est toujours en attente, afficher le message
-            $message = "Your deletion request has been sent to the administrator for review ❤️";
+            $message = "Your deletion request has been sent to the administrator for review";
         }
 
         

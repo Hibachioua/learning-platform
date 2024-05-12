@@ -20,33 +20,27 @@ if (isset($_POST["accept_user"]) || isset($_POST["refuse_user"])) {
         : $_POST["refuse_user"];
 
     if ($action == "Accept") {
-        try {
-            $conn->beginTransaction();
-            $delete_user = $conn->prepare(
-                "DELETE FROM users WHERE id = (SELECT user_id FROM deletion_requests WHERE id = ?)"
-            );
-            $delete_user->execute([$request_id]);
-            // Supprimer les commentaires de l'étudiant correspondant
-            $delete_student_comments = $conn->prepare(
-                "DELETE FROM comments WHERE user_id = (SELECT user_id FROM deletion_requests WHERE request_id = ?)"
-            );
-            $delete_student_comments->execute([$request]);
+        $conn->beginTransaction();
+        $delete_user = $conn->prepare(
+            "DELETE FROM users WHERE id in (SELECT user_id FROM deletion_requests WHERE id = ?)"
+        );
+        $delete_user->execute([$request_id]);
+        // Supprimer les commentaires de l'étudiant correspondant
+        $delete_student_comments = $conn->prepare(
+            "DELETE FROM comments WHERE user_id in (SELECT user_id FROM deletion_requests WHERE id = ?)"
+        );
+        $delete_student_comments->execute([$request_id]);
 
-            $delete_student_request = $conn->prepare(
-                "DELETE FROM deletion_requests WHERE id = ?"
-            );
-            $delete_student_request->execute([$request_id]);
+        $delete_student_request = $conn->prepare(
+            "DELETE FROM deletion_requests WHERE id = ?"
+        );
+        $delete_student_request->execute([$request_id]);
 
-            $conn->commit();
-            // Redirect after successful deletion
-            header("location: dashboard.php");
-            exit();
-        } catch (Exception $e) {
-            $conn->rollBack();
-            $message = "Error: " . $e->getMessage();
-        }
+        $conn->commit();
+        // Redirect after successful deletion
+        header("location: dashboard.php");
+        exit();
     } elseif ($action == "Reject") {
-        // Rejection logic
         // Supprimer la demande de la table deletion_requests
         $delete_student_request = $conn->prepare(
             "DELETE FROM deletion_requests WHERE id = ?"
@@ -57,22 +51,6 @@ if (isset($_POST["accept_user"]) || isset($_POST["refuse_user"])) {
         header("location: dashboard.php");
         exit();
     }
-
-    // Supprimer la demande de la table deletion_requests pour les utilisateurs
-    $delete_request_user = $conn->prepare(
-        "DELETE FROM deletion_requests WHERE id = ? AND type = 'user'"
-    );
-    $delete_request_user->execute([$request_id]);
-
-    // Mettre à jour la demande avec l'ID de l'administrateur pour les utilisateurs
-    $update_request_user = $conn->prepare(
-        "UPDATE deletion_requests SET admin_id = ? WHERE id = ? AND type = 'user'"
-    );
-    $update_request_user->execute([$admin_id, $request_id]);
-
-    // Rediriger pour éviter la soumission en double
-    header("location: dashboard.php");
-    exit();
 }
 
 // Récupérer les demandes de suppression en attente pour les utilisateurs
@@ -171,8 +149,8 @@ if (isset($_POST["accept_tutor"]) || isset($_POST["refuse_tutor"])) {
                     <input type="hidden" name="request_id" value="<?= $request[
                         "request_id"
                     ] ?>">
-                    <button type="submit" class="accept" name="accept_user" value="Accept">Accepter</button>
-                    <button type="submit" class="reject" name="refuse_user" value="Reject">Refuser</button>
+                    <button type="submit" class="accept" name="accept_user" value="Accept">Accept</button>
+                    <button type="submit" class="reject" name="refuse_user" value="Reject">Refuse</button>
                 </form>
             </li>
         <?php endforeach; ?>
@@ -189,8 +167,8 @@ if (isset($_POST["accept_tutor"]) || isset($_POST["refuse_tutor"])) {
                     <input type="hidden" name="request" value="<?= $dm[
                         "request_id"
                     ] ?>"> 
-                    <button type="submit" class="accept"  name="accept_tutor" value="Accept">Accepter</button>
-                    <button type="submit" class="reject" name="refuse_tutor" value="Reject">Refuser</button>
+                    <button type="submit" class="accept"  name="accept_tutor" value="Accept">Accept</button>
+                    <button type="submit" class="reject" name="refuse_tutor" value="Reject">Refuse</button>
                 </form>
           </li>
         <?php endforeach; ?>
