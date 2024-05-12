@@ -31,7 +31,7 @@ if(isset($_POST['delete_account'])) {
     $insert_request->execute([$user_id]);
     
     // Afficher un message de confirmation
-    $message = "Your deletion request has been sent to the administrator for review ❤️";
+    $message = "Your deletion request has been sent to the administrator for review";
 }
 
 

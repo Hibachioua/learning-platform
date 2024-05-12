@@ -61,7 +61,7 @@ if(isset($_POST['delete_teacher'])) {
             $message = '';
         } else {
             // If the request is still pending, display the message
-            $message = "Your deletion request has been sent to the administrator for review.";
+            $message = "Your deletion request has been sent to the administrator for review";
         }
     }
 }
