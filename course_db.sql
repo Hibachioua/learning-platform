@@ -5,13 +5,16 @@ SET time_zone = "+00:00";
 
 
 
+CREATE DATABASE course_db;
+USE course_db;
 
 CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `image` varchar(100) NOT NULL
+  `image` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -22,12 +25,13 @@ INSERT INTO `admin` (`id`, `name`, `email`, `password`, `image`) VALUES
 
 
 CREATE TABLE `Announcements` (
-  `announcement_id` int(11) NOT NULL,
+  `announcement_id` int(11) NOT NULL AUTO_INCREMENT,
   `tutor_id` varchar(20) NOT NULL,
   `title` varchar(100) NOT NULL,
   `content` text NOT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'deactive',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`announcement_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -112,11 +116,12 @@ INSERT INTO `playlist` (`id`, `tutor_id`, `title`, `description`, `thumb`, `date
 
 
 CREATE TABLE `tutors` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `image` varchar(100) NOT NULL
+  `image` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -126,11 +131,12 @@ INSERT INTO `tutors` (`id`, `name`, `email`, `password`, `image`) VALUES
 
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `image` varchar(100) NOT NULL
+  `image` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -138,36 +144,4 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `image`) VALUES
 (1, 'Ahmed Jaber', 'ahmed.jaber@gmail.com', 'c38ae1eb311400460911a30ad83ae2513ba00cad', '54O4Il1xiSkAPQcDzdDa.jpg');
 
-
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`);
-
-
-ALTER TABLE `Announcements`
-  ADD PRIMARY KEY (`announcement_id`);
-
-
-ALTER TABLE `tutors`
-  ADD PRIMARY KEY (`id`);
-
-
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
-
-ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
-
-ALTER TABLE `Announcements`
-  MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT;
-
-
-ALTER TABLE `tutors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
-
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
-

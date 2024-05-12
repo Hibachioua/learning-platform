@@ -223,23 +223,24 @@ if(isset($_POST['delete_comment'])){
                 <div class="replies">
                     <?php
                // Retrieve and display replies for the current comment
-               $select_replies = $conn->prepare("SELECT * FROM `comments` WHERE parent_id = ? order by date desc");
+               $select_replies = $conn->prepare("SELECT comments.*, tutors.name as tutor_name, tutors.image as tutor_image FROM `comments` LEFT JOIN `tutors` ON comments.tutor_id = tutors.id WHERE parent_id = ? ORDER BY date DESC");
                $select_replies->execute([$fetch_comment['id']]);
+
                if($select_replies->rowCount() > 0){
                   while($fetch_reply = $select_replies->fetch(PDO::FETCH_ASSOC)){
                      // Display each reply
             ?>
                     <div class="comment">
                         <div class="user">
-                            <!-- Assuming you have user data for the replier -->
-                            <img src="path_to_user_image" alt="User Image">
+                            
+                        <img src="uploaded_files/<?= $fetch_reply['tutor_image']; ?>" alt="">
                             <div>
-                                <h3>User Name</h3>
-                                <span><?= $fetch_reply['date']; ?></span>
-                            </div>
+                        <h3><?= $fetch_reply['tutor_name']; ?></h3>
+                        <span><?= $fetch_reply['date']; ?></span>
+                             </div>
                         </div>
                         <p class="text"><?= $fetch_reply['comment']; ?></p>
-                        <!-- You can add edit/delete buttons for replies if needed -->
+                        
                     </div>
                     <?php
                   }
